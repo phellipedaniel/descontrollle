@@ -106,3 +106,79 @@ a { color: inherit; text-decoration: none; }
   .auth-card { padding:28px; }
   .auth-actions { grid-template-columns:1fr; }
 }
+
+
+/* MVP 1 — Diagnóstico Financeiro */
+.hero-actions { margin-top:22px; display:flex; gap:12px; flex-wrap:wrap; }
+.inline-button { display:inline-flex; align-items:center; justify-content:center; width:max-content; }
+.nav-item { cursor:default; }
+a.nav-item, button.nav-item { cursor:pointer; }
+.nav-item:not(.active):not(.disabled):hover { background:rgba(255,255,255,.05); color:#d8d0e0; }
+.button:disabled { cursor:not-allowed; opacity:.45; }
+.button.positive { color:#d9ffe2; background:rgba(0,185,41,.16); border:1px solid rgba(0,185,41,.28); }
+.button.negative { color:#ffd7d7; background:rgba(255,45,46,.14); border:1px solid rgba(255,45,46,.25); }
+
+.flow-bars { display:grid; gap:24px; margin-top:34px; }
+.flow-row { display:grid; gap:10px; }
+.flow-meta { display:flex; justify-content:space-between; gap:16px; color:var(--muted); font-size:13px; }
+.flow-meta strong { color:white; }
+.flow-track { height:14px; background:#2a2337; border-radius:999px; overflow:hidden; }
+.flow-fill { display:block; height:100%; min-width:2px; border-radius:inherit; }
+.flow-fill.income { background:linear-gradient(90deg,rgba(0,185,41,.65),var(--green)); }
+.flow-fill.expense { background:linear-gradient(90deg,rgba(255,45,46,.58),var(--red)); }
+.flow-balance { margin-top:8px; padding-top:18px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:20px; color:var(--muted); }
+.flow-balance strong { color:white; font-size:22px; }
+
+.setup-grid, .entry-grid, .catalog-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin-top:18px; }
+.finance-panel { min-height:0; }
+.finance-form { display:grid; gap:16px; margin-top:24px; }
+.field { display:grid; gap:8px; }
+.field > span { color:#d7cfdf; font-size:12px; font-weight:700; }
+.finance-form input, .finance-form select {
+  width:100%;
+  border:1px solid var(--border);
+  background:#2e273c;
+  color:white;
+  border-radius:12px;
+  padding:13px 14px;
+  outline:none;
+}
+.finance-form input:focus, .finance-form select:focus { border-color:#8c5cc0; box-shadow:0 0 0 3px rgba(172,106,236,.14); }
+.finance-form select { appearance:auto; }
+.form-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.entry-panel { position:relative; overflow:hidden; }
+.entry-panel::before { content:""; position:absolute; inset:0 auto 0 0; width:3px; opacity:.75; }
+.income-panel::before { background:var(--green); }
+.expense-panel::before { background:var(--red); }
+
+.data-list { display:grid; gap:0; margin-top:18px; }
+.data-row { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:15px 0; border-bottom:1px solid var(--border); }
+.data-row:last-child { border-bottom:0; }
+.data-row > div:first-child, .data-row-main { display:grid; gap:5px; min-width:0; }
+.data-row span, .data-row-main span { color:var(--faint); font-size:12px; }
+.data-row strong { font-size:14px; }
+.empty-state { padding:22px 0; color:var(--faint); font-size:13px; }
+.tag-grid { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+.tag { padding:9px 11px; border-radius:999px; border:1px solid var(--border); background:#2e273c; color:#d7cfdf; font-size:12px; }
+.tag.income { color:#b9f6c7; border-color:rgba(0,185,41,.24); background:rgba(0,185,41,.08); }
+.tag.expense { color:#ffc5c5; border-color:rgba(255,45,46,.2); background:rgba(255,45,46,.07); }
+
+.recent-panel { margin-top:18px; }
+.transaction-row { align-items:center; }
+.transaction-actions { display:flex; align-items:center; justify-content:flex-end; gap:12px; }
+.amount { white-space:nowrap; }
+.amount.income { color:#7fe69a; }
+.amount.expense { color:#ff9b9b; }
+.icon-button { width:34px; height:34px; border-radius:10px; border:1px solid var(--border); background:#2e273c; color:#d8d0e0; cursor:pointer; }
+.icon-button.danger:hover { color:#ffb3b3; border-color:rgba(255,45,46,.35); background:rgba(255,45,46,.08); }
+
+@media (max-width: 900px) {
+  .setup-grid, .entry-grid, .catalog-grid { grid-template-columns:1fr; }
+}
+
+@media (max-width: 640px) {
+  .form-row { grid-template-columns:1fr; }
+  .data-row { align-items:flex-start; }
+  .transaction-row { flex-direction:column; }
+  .transaction-actions { width:100%; justify-content:space-between; }
+}
