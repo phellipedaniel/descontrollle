@@ -21,10 +21,22 @@ Gerenciador de finanças pessoais orientado a planejamento financeiro.
 - RLS por usuário
 - Migration: `20260930223150_mvp1_financial_core`
 
+## MVP 2 — Planejamento Mensal
+
+- Um plano por usuário e por mês
+- Receita mensal planejada
+- Limites de despesa por categoria
+- Comparação planejado × realizado
+- Saldo previsto × saldo realizado
+- Navegação entre meses
+- RLS por usuário
+- Migration: `20260930224507_mvp2_monthly_planning`
+
 Rotas principais:
 
 - `/` — visão geral
 - `/finance` — diagnóstico financeiro
+- `/planning` — planejamento mensal
 
 ## Rodar localmente
 
@@ -42,5 +54,5 @@ npm run dev
 
 - Nenhuma `service_role`/secret key deve ser exposta ao frontend.
 - Autorização server-side usa Supabase Auth.
-- As tabelas financeiras têm RLS habilitado e políticas por `auth.uid()`.
-- O papel `anon` não recebe acesso às tabelas financeiras.
+- Todas as tabelas financeiras e de planejamento têm RLS habilitado e políticas por `auth.uid()`.
+- O papel `anon` não recebe acesso às tabelas financeiras ou de planejamento.

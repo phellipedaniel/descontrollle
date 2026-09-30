@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { logout } from "@/app/login/actions";
 
-type SidebarSection = "dashboard" | "finance";
+type SidebarSection = "dashboard" | "finance" | "planning";
 
 export function Sidebar({ active }: { active: SidebarSection }) {
   return (
@@ -23,6 +23,14 @@ export function Sidebar({ active }: { active: SidebarSection }) {
           aria-current={active === "finance" ? "page" : undefined}
         >
           ◫
+        </Link>
+        <Link
+          className={"nav-item " + (active === "planning" ? "active" : "")}
+          href="/planning"
+          aria-label="Planejamento mensal"
+          aria-current={active === "planning" ? "page" : undefined}
+        >
+          ◇
         </Link>
         <span className="nav-item disabled" aria-label="Metas">◎</span>
         <span className="nav-item disabled" aria-label="Configurações">⚙</span>

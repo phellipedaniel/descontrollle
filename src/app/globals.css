@@ -182,3 +182,111 @@ a.nav-item, button.nav-item { cursor:pointer; }
   .transaction-row { flex-direction:column; }
   .transaction-actions { width:100%; justify-content:space-between; }
 }
+
+
+/* MVP 2 — Planejamento Mensal */
+textarea { font:inherit; }
+.planning-toolbar { display:grid; grid-template-columns:auto minmax(0,520px) auto; align-items:end; justify-content:center; gap:12px; margin-bottom:18px; }
+.month-form { display:grid; grid-template-columns:1fr auto; align-items:end; gap:12px; width:100%; }
+.month-form label { display:grid; gap:8px; }
+.month-form input {
+  width:100%;
+  border:1px solid var(--border);
+  background:#2e273c;
+  color:white;
+  border-radius:12px;
+  padding:12px 14px;
+  outline:none;
+}
+.month-arrow { width:44px; height:44px; border-radius:12px; display:grid; place-items:center; background:#332b43; border:1px solid var(--border); color:#d9d1e2; font-size:26px; }
+.month-arrow:hover { background:#403650; color:white; }
+.planning-hero h2 { text-transform:capitalize; }
+.planning-grid, .planning-summary { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin-top:18px; }
+.finance-form textarea {
+  width:100%;
+  min-height:110px;
+  resize:vertical;
+  border:1px solid var(--border);
+  background:#2e273c;
+  color:white;
+  border-radius:12px;
+  padding:13px 14px;
+  outline:none;
+}
+.finance-form textarea:focus { border-color:#8c5cc0; box-shadow:0 0 0 3px rgba(172,106,236,.14); }
+.budget-overview { display:grid; gap:16px; margin-top:30px; }
+.budget-overview-line { display:flex; align-items:center; justify-content:space-between; gap:20px; color:var(--muted); font-size:13px; }
+.budget-overview-line strong { color:white; font-size:17px; }
+.budget-progress, .budget-mini-progress { height:10px; background:#2a2337; border-radius:999px; overflow:hidden; }
+.budget-progress > span, .budget-mini-progress > span { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,var(--purple),var(--purple-2)); }
+.budget-progress > span.over, .budget-mini-progress > span.over { background:linear-gradient(90deg,#c96a83,var(--red)); }
+.text-danger { color:#ff9b9b !important; }
+.text-positive { color:#90e9a5 !important; }
+.pill-danger { color:#ffc0c0; background:rgba(255,45,46,.12); }
+
+.budget-panel { margin-top:18px; min-height:0; }
+.budget-list { display:grid; margin-top:20px; }
+.budget-row {
+  display:grid;
+  grid-template-columns:minmax(180px,1.3fr) minmax(130px,1fr) minmax(120px,.7fr) minmax(230px,1fr);
+  align-items:center;
+  gap:18px;
+  padding:18px 0;
+  border-bottom:1px solid var(--border);
+}
+.budget-row:last-child { border-bottom:0; }
+.budget-category { display:grid; gap:5px; }
+.budget-category span, .budget-remaining span { color:var(--faint); font-size:12px; }
+.budget-remaining { display:grid; gap:5px; text-align:right; }
+.budget-form { display:grid; grid-template-columns:1fr auto; align-items:end; gap:10px; }
+.budget-form input {
+  width:100%;
+  border:1px solid var(--border);
+  background:#2e273c;
+  color:white;
+  border-radius:12px;
+  padding:11px 12px;
+  outline:none;
+}
+.budget-form .button { padding:11px 14px; }
+.planning-empty { display:grid; justify-items:start; gap:16px; }
+
+.summary-equation { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:28px 0 12px; font-size:18px; }
+.summary-equation b { color:var(--faint); }
+.summary-equation strong { font-size:24px; color:white; }
+.planning-summary small { color:var(--faint); }
+
+.comparison-chart { display:grid; gap:30px; margin-top:28px; }
+.comparison-group { display:grid; gap:8px; }
+.comparison-heading { display:flex; justify-content:space-between; gap:14px; font-size:13px; color:var(--muted); }
+.comparison-heading strong { color:white; }
+.comparison-track { height:10px; border-radius:999px; background:#2a2337; overflow:hidden; }
+.comparison-track span { display:block; height:100%; border-radius:inherit; }
+.comparison-plan.income { background:rgba(0,185,41,.32); }
+.comparison-actual.income { background:var(--green); }
+.comparison-plan.expense { background:rgba(255,45,46,.28); }
+.comparison-actual.expense { background:var(--red); }
+.comparison-legend { display:flex; justify-content:space-between; gap:12px; color:var(--faint); font-size:11px; }
+.comparison-result { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding-top:18px; border-top:1px solid var(--border); }
+.comparison-result > div { display:grid; gap:5px; padding:14px; border-radius:14px; background:#30283e; }
+.comparison-result span { color:var(--faint); font-size:12px; }
+.comparison-result strong { font-size:20px; }
+
+@media (max-width: 1100px) {
+  .budget-row { grid-template-columns:1fr 1fr; }
+  .budget-form { grid-column:1 / -1; }
+}
+
+@media (max-width: 900px) {
+  .planning-grid, .planning-summary { grid-template-columns:1fr; }
+}
+
+@media (max-width: 640px) {
+  .planning-toolbar { grid-template-columns:auto 1fr auto; }
+  .month-form { grid-template-columns:1fr; }
+  .month-form .button { display:none; }
+  .budget-row { grid-template-columns:1fr; }
+  .budget-remaining { text-align:left; }
+  .budget-form { grid-column:auto; grid-template-columns:1fr; }
+  .comparison-result { grid-template-columns:1fr; }
+}
