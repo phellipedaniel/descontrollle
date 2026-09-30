@@ -10,6 +10,22 @@ Gerenciador de finanças pessoais orientado a planejamento financeiro.
 - Dashboard responsivo inspirado na referência visual do projeto
 - Variáveis de ambiente sem segredos versionados
 
+## MVP 1 — Diagnóstico Financeiro
+
+- Contas financeiras
+- Categorias de receita e despesa
+- Receitas e despesas
+- Saldo mensal
+- Histórico recente
+- Dashboard alimentado pelo Supabase
+- RLS por usuário
+- Migration: `20260930223150_mvp1_financial_core`
+
+Rotas principais:
+
+- `/` — visão geral
+- `/finance` — diagnóstico financeiro
+
 ## Rodar localmente
 
 1. Copie `.env.example` para `.env.local`.
@@ -25,5 +41,6 @@ npm run dev
 ## Segurança
 
 - Nenhuma `service_role`/secret key deve ser exposta ao frontend.
-- Autorização server-side usa `supabase.auth.getClaims()`.
-- Dados financeiros futuros deverão usar RLS por `auth.uid()` em todas as tabelas expostas.
+- Autorização server-side usa Supabase Auth.
+- As tabelas financeiras têm RLS habilitado e políticas por `auth.uid()`.
+- O papel `anon` não recebe acesso às tabelas financeiras.
