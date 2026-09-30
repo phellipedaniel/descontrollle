@@ -27,6 +27,24 @@ export type FinancialTransaction = {
   created_at: string;
 };
 
+export type MonthlyPlan = {
+  id: string;
+  month: string;
+  planned_income: number | string;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CategoryBudget = {
+  id: string;
+  plan_id: string;
+  category_id: string;
+  planned_amount: number | string;
+  created_at: string;
+  updated_at: string;
+};
+
 const DEFAULT_TIME_ZONE = "America/Sao_Paulo";
 
 function zonedParts(date = new Date()) {
@@ -55,23 +73,62 @@ export function todayInBrazil() {
   return [year, pad(month), pad(day)].join("-");
 }
 
-export function currentMonthRange() {
+export function currentMonthKey() {
   const { year, month } = zonedParts();
+  return [year, pad(month)].join("-");
+}
+
+export function normalizeMonthKey(value?: string | null) {
+  const fallback = currentMonthKey();
+  if (!value || !/^\d{4}-\d{2}$/.test(value)) return fallback;
+
+  const [year, month] = value.split("-").map(Number);
+  if (year < 2000 || year > 2100 || month < 1 || month > 12) return fallback;
+
+  return [year, pad(month)].join("-");
+}
+
+export function monthRangeFromKey(value: string) {
+  const monthKey = normalizeMonthKey(value);
+  const [year, month] = monthKey.split("-").map(Number);
   const nextMonth = month === 12 ? 1 : month + 1;
   const nextYear = month === 12 ? year + 1 : year;
 
   return {
+    key: monthKey,
     start: [year, pad(month), "01"].join("-"),
     end: [nextYear, pad(nextMonth), "01"].join("-"),
   };
 }
 
-export function currentMonthLabel() {
+export function shiftMonthKey(value: string, offset: number) {
+  const { key } = monthRangeFromKey(value);
+  const [year, month] = key.split("-").map(Number);
+  const shifted = new Date(Date.UTC(year, month - 1 + offset, 1));
+
+  return [
+    shifted.getUTCFullYear(),
+    pad(shifted.getUTCMonth() + 1),
+  ].join("-");
+}
+
+export function monthLabelFromKey(value: string) {
+  const { key } = monthRangeFromKey(value);
+  const [year, month] = key.split("-").map(Number);
+
   return new Intl.DateTimeFormat("pt-BR", {
-    timeZone: DEFAULT_TIME_ZONE,
+    timeZone: "UTC",
     month: "long",
     year: "numeric",
-  }).format(new Date());
+  }).format(new Date(Date.UTC(year, month - 1, 1)));
+}
+
+export function currentMonthRange() {
+  return monthRangeFromKey(currentMonthKey());
+}
+
+export function currentMonthLabel() {
+  return monthLabelFromKey(currentMonthKey());
 }
 
 export function numberValue(value: unknown) {
