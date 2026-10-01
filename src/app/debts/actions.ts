@@ -139,7 +139,7 @@ export async function changeDebtStatus(form: FormData) {
 }
 
 export async function recordDebtPayment(form: FormData) {
-  const { supabase } = await requireUser();
+  const { supabase, userId } = await requireUser();
   const debtId = text(form,"debt_id");
   const amountCents = moneyCents(text(form,"amount"));
   const balanceCents = moneyCents(text(form,"resulting_balance"));
@@ -152,12 +152,13 @@ export async function recordDebtPayment(form: FormData) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(occurredOn) || occurredOn > todayInBrazil()) fail("Informe uma data válida, até hoje.");
   if (note.length > 160) fail("Use até 160 caracteres na descrição.");
 
-  const { error } = await supabase.rpc("record_debt_payment", {
-    p_debt_id: debtId,
-    p_amount: amountCents / 100,
-    p_resulting_balance: balanceCents / 100,
-    p_occurred_on: occurredOn,
-    p_note: note || null,
+  const { error } = await supabase.from("debt_payments").insert({
+    user_id: userId,
+    debt_id: debtId,
+    amount: amountCents / 100,
+    resulting_balance: balanceCents / 100,
+    occurred_on: occurredOn,
+    note: note || null,
   });
 
   if (error) {

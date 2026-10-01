@@ -40,7 +40,7 @@ O usuário informa:
 
 O novo saldo é obrigatório porque juros e encargos podem fazer o saldo real divergir de uma simples subtração do pagamento.
 
-`record_debt_payment` registra pagamento e atualiza saldo na mesma transação do banco. A função valida proprietário, status ativo, data até hoje e período financeiro aberto.
+Um trigger privado registra a mudança de saldo na mesma transação do `INSERT` do pagamento. Ele valida proprietário, status ativo, data até hoje, período financeiro aberto e impede que um pagamento aumente o saldo.
 
 Pagamentos de dívida **não geram uma nova transação financeira automaticamente**. Isso evita dupla contagem caso o usuário já tenha registrado a saída em seu fluxo mensal.
 
@@ -61,7 +61,7 @@ Tabelas:
 - `debts`
 - `debt_payments`
 
-Todas usam isolamento por usuário. Pagamentos são gravados pela função controlada `record_debt_payment`.
+Todas usam isolamento por usuário. O frontend só insere pagamentos próprios via RLS; o trigger `private.apply_debt_payment_trigger` não é executável pela API e faz a atualização atômica do saldo.
 
 ## Testes
 
