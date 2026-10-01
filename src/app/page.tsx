@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Sidebar } from "@/components/sidebar";
 import {
@@ -11,15 +12,15 @@ import { createClient } from "@/lib/supabase/server";
 
 export default async function Dashboard() {
   const supabase = await createClient();
+  const { data: userData, error: authError } = await supabase.auth.getUser();
+  if (authError || !userData.user) redirect("/login");
   const { start, end } = currentMonthRange();
 
   const [
-    { data: userData },
-    { data: accountsData },
-    { data: transactionsData },
-    { data: planData },
+    { data: accountsData, error: accountsDataError },
+    { data: transactionsData, error: transactionsDataError },
+    { data: planData, error: planDataError },
   ] = await Promise.all([
-    supabase.auth.getUser(),
     supabase.from("accounts").select("id"),
     supabase
       .from("transactions")
@@ -33,6 +34,10 @@ export default async function Dashboard() {
       .maybeSingle(),
   ]);
 
+  if (accountsDataError || transactionsDataError || planDataError) {
+    throw new Error("Não foi possível carregar os dados financeiros.");
+  }
+
   const accounts = accountsData ?? [];
   const transactions = transactionsData ?? [];
   const incomeTransactions = transactions.filter((transaction) => transaction.kind === "income");
@@ -43,11 +48,12 @@ export default async function Dashboard() {
 
   let plannedExpense = 0;
   if (planData?.id) {
-    const { data: budgetsData } = await supabase
+    const { data: budgetsData, error: budgetsError } = await supabase
       .from("category_budgets")
       .select("planned_amount")
       .eq("plan_id", planData.id);
 
+    if (budgetsError) throw new Error("Não foi possível carregar o orçamento.");
     plannedExpense = (budgetsData ?? []).reduce(
       (sum, budget) => sum + numberValue(budget.planned_amount),
       0,
@@ -57,7 +63,7 @@ export default async function Dashboard() {
   const plannedIncome = numberValue(planData?.planned_income);
   const plannedBalance = plannedIncome - plannedExpense;
   const hasPlan = Boolean(planData);
-  const email = userData.user?.email ?? "usuário";
+  const email = userData.user.email ?? "Minha conta";
 
   const cards = [
     {

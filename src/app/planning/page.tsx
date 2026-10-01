@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Sidebar } from "@/components/sidebar";
 import {
@@ -23,14 +24,14 @@ export default async function PlanningPage({
   const month = normalizeMonthKey(params.month);
   const { start, end } = monthRangeFromKey(month);
   const supabase = await createClient();
+  const { data: userData, error: authError } = await supabase.auth.getUser();
+  if (authError || !userData.user) redirect("/login");
 
   const [
-    { data: userData },
-    { data: planData },
-    { data: categoriesData },
-    { data: transactionsData },
+    { data: planData, error: planDataError },
+    { data: categoriesData, error: categoriesDataError },
+    { data: transactionsData, error: transactionsDataError },
   ] = await Promise.all([
-    supabase.auth.getUser(),
     supabase
       .from("monthly_plans")
       .select("id, month, planned_income, notes, created_at, updated_at")
@@ -48,17 +49,22 @@ export default async function PlanningPage({
       .lt("occurred_on", end),
   ]);
 
+  if (planDataError || categoriesDataError || transactionsDataError) {
+    throw new Error("Não foi possível carregar os dados financeiros.");
+  }
+
   const plan = (planData ?? null) as MonthlyPlan | null;
   const categories = (categoriesData ?? []) as Category[];
   const transactions = transactionsData ?? [];
 
   let budgets: CategoryBudget[] = [];
   if (plan?.id) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("category_budgets")
       .select("id, plan_id, category_id, planned_amount, created_at, updated_at")
       .eq("plan_id", plan.id);
 
+    if (error) throw new Error("Não foi possível carregar o orçamento.");
     budgets = (data ?? []) as CategoryBudget[];
   }
 
@@ -91,7 +97,7 @@ export default async function PlanningPage({
   const actualBalance = actualIncome - actualExpense;
   const expenseVariance = plannedExpense - actualExpense;
   const planCoverage = plannedExpense > 0 ? Math.round((actualExpense / plannedExpense) * 100) : 0;
-  const email = userData.user?.email ?? "usuário";
+  const email = userData.user.email ?? "Minha conta";
 
   const cards = [
     {

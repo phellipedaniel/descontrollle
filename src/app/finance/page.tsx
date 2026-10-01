@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
 import {
   accountTypeLabel,
@@ -26,16 +27,16 @@ export default async function FinancePage({
 }) {
   const params = await searchParams;
   const supabase = await createClient();
+  const { data: userData, error: authError } = await supabase.auth.getUser();
+  if (authError || !userData.user) redirect("/login");
   const { start, end } = currentMonthRange();
 
   const [
-    { data: userData },
-    { data: accountsData },
-    { data: categoriesData },
-    { data: monthTransactionsData },
-    { data: recentTransactionsData },
+    { data: accountsData, error: accountsDataError },
+    { data: categoriesData, error: categoriesDataError },
+    { data: monthTransactionsData, error: monthTransactionsDataError },
+    { data: recentTransactionsData, error: recentTransactionsDataError },
   ] = await Promise.all([
-    supabase.auth.getUser(),
     supabase.from("accounts").select("id, name, account_type, initial_balance, currency, created_at").order("created_at"),
     supabase.from("categories").select("id, name, kind, created_at").order("kind").order("name"),
     supabase.from("transactions").select("kind, amount").gte("occurred_on", start).lt("occurred_on", end),
@@ -46,6 +47,10 @@ export default async function FinancePage({
       .order("created_at", { ascending: false })
       .limit(20),
   ]);
+
+  if (accountsDataError || categoriesDataError || monthTransactionsDataError || recentTransactionsDataError) {
+    throw new Error("Não foi possível carregar os dados financeiros.");
+  }
 
   const accounts = (accountsData ?? []) as FinancialAccount[];
   const categories = (categoriesData ?? []) as Category[];
@@ -64,7 +69,7 @@ export default async function FinancePage({
 
   const accountNames = new Map(accounts.map((account) => [account.id, account.name]));
   const categoryNames = new Map(categories.map((category) => [category.id, category.name]));
-  const email = userData.user?.email ?? "usuário";
+  const email = userData.user.email ?? "Minha conta";
 
   const summaryCards = [
     { label: "Saldo do mês", value: formatBRL(balance), note: currentMonthLabel(), tone: "purple" },
