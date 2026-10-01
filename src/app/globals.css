@@ -354,3 +354,36 @@ textarea { font:inherit; }
   .section-heading-row { align-items:flex-start; flex-direction:column; }
   .baseline-breakdown { grid-template-columns:1fr; }
 }
+
+
+/* MVP 5 — Dívidas */
+.debt-top-grid, .debt-strategy-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin-top:18px; }
+.debt-focus { display:grid; gap:8px; margin-top:28px; }
+.debt-focus > strong { font-size:38px; }
+.debt-focus > span, .debt-focus > p { color:var(--muted); }
+.debt-focus > p { line-height:1.55; }
+.debt-order-panel { min-height:0; }
+.debt-order-panel.selected { border-color:rgba(172,106,236,.4); box-shadow:inset 0 0 0 1px rgba(172,106,236,.12); }
+.debt-order-panel > p { color:var(--muted); line-height:1.5; }
+.debt-order-list { list-style:none; padding:0; margin:20px 0 0; display:grid; gap:10px; }
+.debt-order-list li { display:flex; justify-content:space-between; gap:16px; padding:12px 0; border-bottom:1px solid var(--border); font-size:13px; }
+.debt-order-list li:last-child { border-bottom:0; }
+.debt-order-list strong { color:var(--muted); text-align:right; }
+.debt-create { margin-bottom:18px; min-height:0; }
+.debt-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+.debt-card { min-height:0; }
+.debt-balance { display:flex; align-items:baseline; flex-wrap:wrap; gap:8px; margin-top:20px; }
+.debt-balance strong { font-size:30px; }
+.debt-balance span { color:var(--muted); font-size:13px; }
+.debt-facts { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.debt-facts span { padding:8px 10px; border-radius:10px; background:#30283e; color:var(--muted); font-size:12px; }
+.debt-paid { color:#a5efb6; background:rgba(0,185,41,.10); }
+.debt-payment-values { display:grid; gap:4px; text-align:right; }
+.debt-payment-values span { color:var(--faint); font-size:12px; }
+@media(max-width:900px) {
+  .debt-top-grid, .debt-strategy-grid, .debt-grid { grid-template-columns:1fr; }
+}
+@media(max-width:640px) {
+  .debt-order-list li { flex-direction:column; }
+  .debt-order-list strong, .debt-payment-values { text-align:left; }
+}
