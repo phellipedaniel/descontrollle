@@ -65,25 +65,25 @@ export default async function Dashboard() {
       <Sidebar active="dashboard" />
       <section className="workspace">
         <header className="topbar">
-          <div><span className="eyebrow">DESCONTROLLLE · MVP 6</span><h1>Visão geral</h1></div>
+          <div><span className="eyebrow">DESCONTROLLLE · MVP 7</span><h1>Visão geral</h1></div>
           <div className="profile-chip"><span className="status-dot" />{email}</div>
         </header>
 
         <section className="hero-card">
           <div>
             <span className="eyebrow">PLANEJAMENTO + PROTEÇÃO</span>
-            <h2>Fluxo, proteção, dívidas e patrimônio agora cabem na mesma visão.</h2>
-            <p>O patrimônio líquido consolida contas reais, ativos manuais e dívidas sem contar metas, reserva ou provisões duas vezes.</p>
+            <h2>O plano financeiro agora pode ser projetado para frente.</h2>
+            <p>O motor conecta orçamento, metas, reserva, provisões e dívidas para comparar o futuro planejado com um cenário histórico provável.</p>
             <div className="hero-actions">
               <Link className="button primary inline-button" href={"/planning?month=" + currentMonthKey()}>Planejar este mês</Link>
-              <Link className="button secondary inline-button" href="/net-worth">Ver patrimônio</Link>
+              <Link className="button secondary inline-button" href="/forecast">Abrir projeções</Link>
             </div>
           </div>
           <div className="hero-status">
             <span>Diagnóstico financeiro</span><strong>ativo</strong>
             <span>Planejamento mensal</span><strong>ativo</strong>
             <span>Objetivos financeiros</span><strong>ativo</strong>
-            <span>Segurança financeira</span><strong>ativo</strong>\n            <span>Gestão de dívidas</span><strong>ativo</strong>\n            <span>Patrimônio líquido</span><strong>ativo</strong>
+            <span>Segurança financeira</span><strong>ativo</strong>\n            <span>Gestão de dívidas</span><strong>ativo</strong>\n            <span>Patrimônio líquido</span><strong>ativo</strong>\n            <span>Motor de planejamento</span><strong>ativo</strong>
           </div>
         </section>
 

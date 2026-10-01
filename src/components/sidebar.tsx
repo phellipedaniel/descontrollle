@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { logout } from "@/app/login/actions";
 
-type SidebarSection = "dashboard" | "finance" | "planning" | "goals" | "resilience" | "debts" | "net-worth";
+type SidebarSection = "dashboard" | "finance" | "planning" | "goals" | "resilience" | "debts" | "net-worth" | "forecast";
 
 export function Sidebar({ active }: { active: SidebarSection }) {
   return (
@@ -15,6 +15,7 @@ export function Sidebar({ active }: { active: SidebarSection }) {
         <Link className={"nav-item " + (active === "resilience" ? "active" : "")} href="/resilience" aria-label="Segurança financeira" aria-current={active === "resilience" ? "page" : undefined}>◈</Link>
         <Link className={"nav-item " + (active === "debts" ? "active" : "")} href="/debts" aria-label="Dívidas" aria-current={active === "debts" ? "page" : undefined}>◌</Link>
         <Link className={"nav-item " + (active === "net-worth" ? "active" : "")} href="/net-worth" aria-label="Patrimônio líquido" aria-current={active === "net-worth" ? "page" : undefined}>◩</Link>
+        <Link className={"nav-item " + (active === "forecast" ? "active" : "")} href="/forecast" aria-label="Projeções" aria-current={active === "forecast" ? "page" : undefined}>⌁</Link>
         <span className="nav-item disabled" aria-label="Configurações">⚙</span>
       </nav>
       <form action={logout}><button className="nav-item logout" title="Sair" aria-label="Sair">↪</button></form>
