@@ -24,12 +24,16 @@ Gerenciador de finanças pessoais orientado a planejamento financeiro.
 - [Escopo, cálculos e testes](docs/MVP-5.md)
 
 ## MVP 6 — Patrimônio líquido
-- Contas incluídas pelo saldo calculado
-- Ativos manuais com histórico de avaliações
-- Dívidas incluídas como passivos
-- Snapshots patrimoniais
-- Proteção contra dupla contagem de reserva, metas e provisões
+- Contas, ativos manuais, dívidas e snapshots patrimoniais
 - [Escopo, cálculos e testes](docs/MVP-6.md)
+
+## MVP 7 — Motor de planejamento
+- Futuro planejado × cenário histórico provável
+- Planos mensais explícitos com fallback configurável
+- Metas, provisões, dívidas e reserva como compromissos
+- Detecção de dados históricos incompletos
+- Margem mensal e acumulada em horizonte de 3 a 24 meses
+- [Escopo, cálculos e testes](docs/MVP-7.md)
 
 Rotas principais:
 - `/` — visão geral
@@ -39,6 +43,7 @@ Rotas principais:
 - `/resilience` — segurança financeira
 - `/debts` — gestão de dívidas
 - `/net-worth` — patrimônio líquido
+- `/forecast` — motor de planejamento e projeções
 
 ## Segurança
 - Nenhuma `service_role`/secret key é exposta ao frontend.
