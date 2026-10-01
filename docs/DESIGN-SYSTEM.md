@@ -376,7 +376,7 @@ Oferecer “Ocultar valores” como preferência visual futura. Quando ativa, us
 | Salvando | Bloquear envio duplicado e manter conteúdo | Aguardar; não afirmar sucesso antecipado |
 | Sucesso | Confirmação contextual, dado atualizado | Prosseguir; desfazer só quando permitido |
 | Falha ao salvar | Preservar entrada e mostrar erro | Corrigir ou tentar novamente |
-| Mês fechado | Badge neutro/info e leitura preservada | Consultar; nenhuma edição proibida |
+| Mês fechado | Badge neutro/info e leitura preservada | Consultar; nenhuma edição permitida |
 | Desatualizado/offline | Explicar somente se detectado | Não afirmar que salvou localmente sem suporte |
 
 Não misturar conteúdo de usuários ou períodos durante navegação. Estados vazios de toda a Home usam um único convite inicial com passos simples, em vez de repetir dez mensagens de cadastro. Skeletons devem reservar espaço aproximado sem fixar alturas que cortem conteúdo depois.
