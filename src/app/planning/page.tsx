@@ -1,7 +1,14 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { AppShell } from "@/components/layout/app-shell";
-import { PageHeader } from "@/components/layout/page-header";
+import { Panel } from "@/components/ui/panel";
+import { Badge } from "@/components/ui/badge";
+import { Alert } from "@/components/ui/alert";
+import { EmptyState } from "@/components/ui/empty-state";
+import { ButtonLink, Button } from "@/components/ui/button";
+import { FormSubmitButton } from "@/components/ui/form-submit-button";
+import { MetricCard } from "@/components/dashboard/metric-card";
+import { PageHeader, SectionHeader } from "@/components/layout/page-header";
 import {
   formatBRL,
   monthLabelFromKey,
@@ -31,7 +38,7 @@ export default async function PlanningPage({
   const [
     { data: planData, error: planDataError },
     { data: categoriesData, error: categoriesDataError },
-    { data: transactionsData, error: transactionsDataError },
+    { data: transactionsData, error: transactionsDataError, count: transactionsCount },
   ] = await Promise.all([
     supabase
       .from("monthly_plans")
@@ -45,7 +52,7 @@ export default async function PlanningPage({
       .order("name"),
     supabase
       .from("transactions")
-      .select("kind, amount, category_id")
+      .select("kind, amount, category_id", { count: "exact" })
       .gte("occurred_on", start)
       .lt("occurred_on", end),
   ]);
@@ -57,6 +64,7 @@ export default async function PlanningPage({
   const plan = (planData ?? null) as MonthlyPlan | null;
   const categories = (categoriesData ?? []) as Category[];
   const transactions = transactionsData ?? [];
+  const transactionsIncomplete = transactionsCount != null && transactionsCount > transactions.length;
 
   let budgets: CategoryBudget[] = [];
   if (plan?.id) {
@@ -98,86 +106,54 @@ export default async function PlanningPage({
   const actualBalance = actualIncome - actualExpense;
   const expenseVariance = plannedExpense - actualExpense;
   const planCoverage = plannedExpense > 0 ? Math.round((actualExpense / plannedExpense) * 100) : 0;
-  const email = userData.user.email ?? "Minha conta";
+
 
   const cards = [
     {
       label: "Saldo previsto",
       value: formatBRL(plannedBalance),
-      note: plannedIncome || plannedExpense ? "receita − orçamento" : "defina o plano do mês",
-      tone: "purple",
+      note: "receita − orçamento",
+      unavailable: !plan,
+
     },
     {
       label: "Saldo realizado",
       value: formatBRL(actualBalance),
       note: monthLabelFromKey(month),
-      tone: "blue",
+
     },
     {
       label: "Receita",
       value: formatBRL(actualIncome),
-      note: "planejado " + formatBRL(plannedIncome),
-      tone: "green",
+      note: plan ? "planejado " + formatBRL(plannedIncome) : "Sem receita planejada",
+
     },
     {
       label: "Despesas",
       value: formatBRL(actualExpense),
-      note: "orçamento " + formatBRL(plannedExpense),
-      tone: "red",
+      note: plan ? "orçamento " + formatBRL(plannedExpense) : "Sem orçamento definido",
+
     },
   ];
 
   return (
     <AppShell active="planning">
-        <PageHeader title="Planejamento mensal" actions={<div className="profile-chip"><span className="status-dot" />{email}</div>} />
+        <PageHeader title="Planejamento mensal" description="Defina receitas e limites por categoria e compare com o realizado." periodLabel={monthLabelFromKey(month)} actions={
+          <div className="ds-month-navigation">
+            <Link className="ds-button ghost md" href={"/planning?month=" + shiftMonthKey(month, -1)} aria-label="Mês anterior">Anterior</Link>
+            <form className="ds-month-form" method="get"><label>Mês<input type="month" name="month" defaultValue={month} required /></label><Button type="submit" variant="secondary">Consultar</Button></form>
+            <Link className="ds-button ghost md" href={"/planning?month=" + shiftMonthKey(month, 1)} aria-label="Próximo mês">Próximo</Link>
+          </div>} />
+        <div className="ds-context"><Badge>{plan ? "Plano salvo" : "Sem planejamento"}</Badge><span>Receitas e despesas realizadas usam os lançamentos de {monthLabelFromKey(month)}.</span></div>
+        {params.error && <Alert tone="danger">{params.error}</Alert>}
+        {params.message && <Alert tone="success">{params.message}</Alert>}
 
-        <section className="planning-toolbar">
-          <Link className="month-arrow" href={"/planning?month=" + shiftMonthKey(month, -1)} aria-label="Mês anterior">‹</Link>
-          <form className="month-form" method="get">
-            <label>
-              <span className="eyebrow">MÊS DO PLANO</span>
-              <input type="month" name="month" defaultValue={month} />
-            </label>
-            <button className="button secondary" type="submit">Abrir mês</button>
-          </form>
-          <Link className="month-arrow" href={"/planning?month=" + shiftMonthKey(month, 1)} aria-label="Próximo mês">›</Link>
+        <section className="ds-kpi-strip" aria-label="Resumo do planejamento">
+          {cards.map(card => <MetricCard key={card.label} label={card.label} state={transactionsIncomplete && !card.unavailable && card.label !== "Saldo previsto" ? { status: "unavailable", message: "Total indisponível: consulta parcial." } : card.unavailable ? { status: "unavailable", message: "Sem planejamento" } : { status: "ready", formattedValue: card.value, referenceLabel: card.note }} />)}
         </section>
-
-        <section className="hero-card planning-hero">
-          <div>
-            <span className="eyebrow">PLANO × REALIDADE</span>
-            <h2>{monthLabelFromKey(month)}</h2>
-            <p>Defina quanto espera receber e quanto pode gastar por categoria. O descontrollle confronta o plano com os lançamentos reais do diagnóstico financeiro.</p>
-          </div>
-          <div className="hero-status">
-            <span>Despesas orçadas</span><strong>{formatBRL(plannedExpense)}</strong>
-            <span>Despesas realizadas</span><strong>{formatBRL(actualExpense)}</strong>
-            <span>Diferença disponível</span><strong>{formatBRL(expenseVariance)}</strong>
-          </div>
-        </section>
-
-        {params.error && <div className="alert error">{params.error}</div>}
-        {params.message && <div className="alert success">{params.message}</div>}
-
-        <section className="metric-grid">
-          {cards.map((card) => (
-            <article className={"metric-card " + card.tone} key={card.label}>
-              <span>{card.label}</span>
-              <strong>{card.value}</strong>
-              <small>{card.note}</small>
-            </article>
-          ))}
-        </section>
-
         <section className="planning-grid">
-          <article className="panel finance-panel">
-            <div className="panel-title">
-              <div>
-                <span className="eyebrow">PREMISSAS DO MÊS</span>
-                <h3>Receita planejada</h3>
-              </div>
-              <span className="pill">{plan ? "plano salvo" : "novo plano"}</span>
-            </div>
+          <Panel className="finance-panel">
+            <SectionHeader title="Receita planejada" action={<Badge>{plan ? "Plano salvo" : "Novo plano"}</Badge>} />
 
             <form className="finance-form" action={saveMonthlyPlan}>
               <input type="hidden" name="month" value={month} />
@@ -201,24 +177,18 @@ export default async function PlanningPage({
                   placeholder="Ex.: mês com IPVA, viagem, bônus ou outra premissa relevante."
                 />
               </label>
-              <button className="button primary" type="submit">Salvar plano do mês</button>
+              <FormSubmitButton variant="primary">Salvar plano do mês</FormSubmitButton>
             </form>
-          </article>
+          </Panel>
 
-          <article className="panel finance-panel">
-            <div className="panel-title">
-              <div>
-                <span className="eyebrow">EXECUÇÃO</span>
-                <h3>Uso do orçamento</h3>
-              </div>
-              <span className={"pill " + (planCoverage > 100 ? "pill-danger" : "")}>{planCoverage}%</span>
-            </div>
+          <Panel className="finance-panel">
+            <SectionHeader title="Uso do orçamento" action={!transactionsIncomplete && plannedExpense > 0 ? <Badge tone={planCoverage > 100 ? "danger" : "neutral"}>{planCoverage}%</Badge> : undefined} />
 
-            <div className="budget-overview">
+            {transactionsIncomplete || !plan || plannedExpense === 0 ? <EmptyState title={transactionsIncomplete ? "Uso indisponível: consulta parcial" : !plan ? "Sem planejamento" : "Sem orçamento definido"} description={transactionsIncomplete ? "Não é possível comparar todos os lançamentos retornados." : "Defina limites por categoria para acompanhar o uso do orçamento."} /> : <div className="budget-overview">
               <div className="budget-overview-line">
                 <span>Orçado</span><strong>{formatBRL(plannedExpense)}</strong>
               </div>
-              <div className="budget-progress">
+              <div className="budget-progress" aria-hidden="true">
                 <span
                   className={planCoverage > 100 ? "over" : ""}
                   style={{ width: Math.min(planCoverage, 100) + "%" }}
@@ -233,24 +203,15 @@ export default async function PlanningPage({
                   {formatBRL(Math.abs(expenseVariance))}
                 </strong>
               </div>
-            </div>
-          </article>
+            </div>}
+          </Panel>
         </section>
 
-        <article className="panel budget-panel">
-          <div className="panel-title">
-            <div>
-              <span className="eyebrow">LIMITES POR CATEGORIA</span>
-              <h3>Orçamento de despesas</h3>
-            </div>
-            <span className="pill">{categories.length} categorias</span>
-          </div>
+        <Panel className="budget-panel">
+          <SectionHeader title="Orçamento de despesas" action={<Badge>{categories.length} categorias</Badge>} />
 
           {categories.length === 0 ? (
-            <div className="empty-state planning-empty">
-              Crie categorias de despesa no Diagnóstico Financeiro antes de distribuir o orçamento.
-              <Link className="button secondary inline-button" href="/finance">Ir para diagnóstico</Link>
-            </div>
+            <EmptyState title="Nenhuma categoria de despesa." description="Crie categorias em Finanças antes de distribuir o orçamento." action={<ButtonLink href="/finance">Abrir Finanças</ButtonLink>} />
           ) : (
             <div className="budget-list">
               {categories.map((category) => {
@@ -264,11 +225,11 @@ export default async function PlanningPage({
                     <div className="budget-category">
                       <strong>{category.name}</strong>
                       <span>
-                        Realizado {formatBRL(actual)} · {planned > 0 ? usage + "% do limite" : "sem limite definido"}
+                        {transactionsIncomplete ? "Realizado indisponível" : `Realizado ${formatBRL(actual)} · ${planned > 0 ? usage + "% do limite" : "sem limite definido"}`}
                       </span>
                     </div>
 
-                    <div className="budget-mini-progress">
+                    <div className="budget-mini-progress" aria-hidden="true" hidden={transactionsIncomplete}>
                       <span
                         className={usage > 100 ? "over" : ""}
                         style={{ width: Math.min(usage, 100) + "%" }}
@@ -276,8 +237,8 @@ export default async function PlanningPage({
                     </div>
 
                     <div className="budget-remaining">
-                      <span>{remaining >= 0 ? "Disponível" : "Excedido"}</span>
-                      <strong className={remaining < 0 ? "text-danger" : ""}>{formatBRL(Math.abs(remaining))}</strong>
+                      <span>{transactionsIncomplete ? "Consulta parcial" : planned > 0 ? remaining >= 0 ? "Disponível" : "Excedido" : "Sem limite"}</span>
+                      {planned > 0 && !transactionsIncomplete && <strong className={remaining < 0 ? "text-danger" : ""}>{formatBRL(Math.abs(remaining))}</strong>}
                     </div>
 
                     <form className="budget-form" action={saveCategoryBudget}>
@@ -294,19 +255,19 @@ export default async function PlanningPage({
                           placeholder="0,00"
                         />
                       </label>
-                      <button className="button secondary" type="submit">Salvar</button>
+                      <FormSubmitButton variant="secondary">Salvar</FormSubmitButton>
                     </form>
                   </div>
                 );
               })}
             </div>
           )}
-        </article>
+        </Panel>
 
         <section className="planning-summary">
-          <article className="panel finance-panel">
-            <span className="eyebrow">PLANEJADO</span>
-            <h3>Resultado esperado</h3>
+          <Panel className="finance-panel">
+            <SectionHeader title="Resultado esperado" />
+            {!plan ? <EmptyState title="Sem planejamento" description="Salve o plano para visualizar o resultado esperado." /> : <>
             <div className="summary-equation">
               <span>{formatBRL(plannedIncome)}</span>
               <b>−</b>
@@ -315,11 +276,12 @@ export default async function PlanningPage({
               <strong>{formatBRL(plannedBalance)}</strong>
             </div>
             <small>Receita planejada − orçamento de despesas.</small>
-          </article>
+            </>}
+          </Panel>
 
-          <article className="panel finance-panel">
-            <span className="eyebrow">REALIZADO</span>
-            <h3>Resultado até agora</h3>
+          <Panel className="finance-panel">
+            <SectionHeader title="Resultado até agora" />
+            {transactionsIncomplete ? <EmptyState title="Total indisponível: consulta parcial." /> : <>
             <div className="summary-equation">
               <span>{formatBRL(actualIncome)}</span>
               <b>−</b>
@@ -328,7 +290,8 @@ export default async function PlanningPage({
               <strong>{formatBRL(actualBalance)}</strong>
             </div>
             <small>Receitas lançadas − despesas lançadas no diagnóstico.</small>
-          </article>
+            </>}
+          </Panel>
         </section>
       </AppShell>
   );

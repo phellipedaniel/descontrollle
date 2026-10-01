@@ -7,6 +7,7 @@ await loadBindings();
 const root = resolve('src');
 registerHooks({
  resolve(specifier, context, next) {
+  if (specifier === './actions' && /\/app\/(finance|planning)\/page\.tsx$/.test(context.parentURL ?? '')) return { url: 'fixture:module-actions', shortCircuit: true };
   if (specifier === '@/lib/supabase/server') return { url: 'fixture:supabase', shortCircuit: true };
   if (specifier === '@/app/login/actions') return { url: 'fixture:actions', shortCircuit: true };
   if (specifier === 'next/link') return { url: 'fixture:link', shortCircuit: true };
@@ -20,6 +21,7 @@ registerHooks({
  },
  load(url, context, next) {
   const mocks = {
+   'fixture:module-actions': 'export async function createAccount() {} export async function createCategory() {} export async function createTransaction() {} export async function deleteTransaction() {} export async function saveMonthlyPlan() {} export async function saveCategoryBudget() {}',
    'fixture:supabase': 'export async function createClient() { return globalThis.dashboardFixture; }',
    'fixture:actions': 'export async function logout() {}',
    'fixture:navigation': 'export function redirect(url) { throw new Error("redirect:" + url); }',
@@ -37,6 +39,7 @@ export function fixtureClient(data = {}, errors = {}) {
  const calls = [];
  return {
   calls,
+  async rpc(name, args) {calls.push({rpc:name,args});return {data:null,error:errors[name]??null};},
   auth: { async getUser() { return {data:{user:{email:'fixture@example.test'}},error:null}; } },
   from(table) {
    const call = {table, filters:[], order:[], limit:null, select:null}; calls.push(call);
