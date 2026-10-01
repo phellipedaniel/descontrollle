@@ -56,3 +56,7 @@ npm run dev
 - Autorização server-side usa Supabase Auth.
 - Todas as tabelas financeiras e de planejamento têm RLS habilitado e políticas por `auth.uid()`.
 - O papel `anon` não recebe acesso às tabelas financeiras ou de planejamento.
+
+## Importação histórica
+
+Revisão privada de fontes, deduplicação e vinculação ao proprietário antes da promoção. Veja [as regras de importação e isolamento por usuário](docs/HISTORICAL-IMPORT.md).

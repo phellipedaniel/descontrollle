@@ -6,3 +6,9 @@ out
 .vercel
 *.log
 .DS_Store
+
+# Private import inputs, reports and access credentials
+/work/
+/outputs/
+/private-imports/
+acesso_descontrollle.txt
