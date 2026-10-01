@@ -6,7 +6,7 @@ Gerenciador de finanças pessoais orientado a planejamento financeiro.
 
 - Next.js 16 + React 19 + TypeScript
 - Supabase Auth com SSR (`@supabase/ssr`)
-- `proxy.ts` para renovação/validação de sessão via `getClaims()`
+- `src/proxy.ts` para renovação/validação de sessão via `getClaims()`
 - Dashboard responsivo inspirado na referência visual do projeto
 - Variáveis de ambiente sem segredos versionados
 
@@ -32,11 +32,21 @@ Gerenciador de finanças pessoais orientado a planejamento financeiro.
 - RLS por usuário
 - Migration: `20260930224507_mvp2_monthly_planning`
 
+## MVP 3 — Objetivos financeiros
+
+- Metas com valor, prazo e reserva inicial
+- Aportes, histórico, progresso e aporte mensal necessário
+- Edição, arquivamento e reativação
+- Comparação com a sobra do planejamento mensal
+- Isolamento por usuário, inclusive nos agregados
+- [Escopo, cálculos e testes](docs/MVP-3.md)
+
 Rotas principais:
 
 - `/` — visão geral
 - `/finance` — diagnóstico financeiro
 - `/planning` — planejamento mensal
+- `/goals` — objetivos financeiros
 
 ## Rodar localmente
 

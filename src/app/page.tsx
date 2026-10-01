@@ -102,7 +102,7 @@ export default async function Dashboard() {
       <section className="workspace">
         <header className="topbar">
           <div>
-            <span className="eyebrow">DESCONTROLLLE · MVP 2</span>
+            <span className="eyebrow">DESCONTROLLLE · MVP 3</span>
             <h1>Visão geral</h1>
           </div>
           <div className="profile-chip"><span className="status-dot" />{email}</div>
@@ -121,7 +121,7 @@ export default async function Dashboard() {
           <div className="hero-status">
             <span>Diagnóstico financeiro</span><strong>ativo</strong>
             <span>Planejamento mensal</span><strong>ativo</strong>
-            <span>Objetivos financeiros</span><strong>próximo MVP</strong>
+            <span>Objetivos financeiros</span><strong>ativo</strong>
           </div>
         </section>
 
@@ -181,11 +181,10 @@ export default async function Dashboard() {
           </article>
 
           <article className="panel roadmap-panel">
-            <span className="eyebrow">PRÓXIMO PASSO</span>
+            <span className="eyebrow">SEUS OBJETIVOS</span>
             <h3>MVP 3 · Objetivos Financeiros</h3>
-            <p>Metas, prazo, valor-alvo, valor acumulado e aporte mensal necessário.</p>
-            <div className="progress"><span style={{ width: "30%" }} /></div>
-            <small>Planejamento e realizado já podem alimentar decisões orientadas a objetivos.</small>
+            <p>Defina o valor e o prazo da sua próxima conquista. Registre seus aportes e acompanhe quanto falta reservar.</p>
+            <Link className="button primary inline-button" href="/goals">Acompanhar objetivos</Link>
           </article>
         </section>
       </section>
