@@ -12,7 +12,6 @@ import {
 import {
   currentMonthKey,
   formatBRL,
-  formatDate,
   monthLabelFromKey,
   monthRangeFromKey,
   normalizeMonthKey,
