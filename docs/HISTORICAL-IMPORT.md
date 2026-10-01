@@ -133,3 +133,18 @@ Os testes no banco utilizaram o papel `authenticated`, com identidade definida a
 Esses testes validam as políticas do banco; não substituem testes de navegação com duas sessões reais. Fechar um período com pendências preserva o estado de reconciliação e exige um procedimento administrativo controlado para futuras correções.
 
 A conta histórica usa saldo inicial técnico. Uma carga de despesas, isoladamente, não reconstrói receitas nem comprova saldo bancário.
+
+
+## Complemento por planilha e previsões
+
+Quando uma planilha complementa o histórico já promovido, a revisão deve ser idempotente:
+
+1. Preservar a célula, aba, arquivo e valor bruto da fonte.
+2. Comparar a linha com as transações já existentes antes de qualquer inserção.
+3. Quando houver correspondência unívoca, apenas vincular o staging à transação existente.
+4. Aplicar categoria e estabelecimento somente quando a evidência for confiável; ausência de classificação permanece nula.
+5. Itens explicitamente futuros ficam em `historical_forecast_staging`, separados de despesas realizadas.
+6. Valores ausentes ou outras pendências ficam em `historical_import_issues` e impedem o fechamento daquele período quando forem materiais.
+7. Valores com precisão maior que centavos preservam `source_amount_raw`; a diferença de arredondamento fica registrada no período em vez de reescrever a fonte.
+
+Um mês reconciliado pode ser fechado depois da comparação entre staging e transações. Um mês incompleto permanece aberto. Uma aba futura ou rascunho não deve criar transações operacionais apenas por conter valores.
