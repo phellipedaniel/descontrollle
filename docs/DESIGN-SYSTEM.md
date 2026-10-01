@@ -1,14 +1,14 @@
-# descontrollle — Design System 2.0
+# descontrollle — Design System 3.0 — Editorial
 
-**Contrato visual oficial do produto · versão 2.0.0 · 01/10/2026**
+**Contrato visual oficial do produto · versão 3.0.0 · 01/10/2026**
 
-Status: proposta normativa para revisão de conteúdo. A aprovação deste documento orienta implementações futuras; sua inclusão no repositório não significa que a interface já foi migrada.
+Status: contrato atualizado para o Sprint 2 editorial, sujeito à revisão do PR. Preserva a arquitetura e as regras financeiras da versão 2.0.
 
 ## 1. Escopo e autoridade
 
 Este documento determina como o descontrollle deve apresentar informação, organizar navegação e responder às ações do usuário. Aplica-se à Home, aos módulos financeiros, à autenticação e aos estados de sistema. **DEVE** indica obrigação; **NÃO DEVE**, proibição; **PODE**, alternativa permitida dentro das condições descritas.
 
-O produto deve parecer um dashboard financeiro moderno: identidade dark, hierarquia forte, pouca decoração, superfícies neutras e roxo como accent controlado. O objetivo é ajudar a responder: “Qual é minha situação?”, “O que mudou?” e “Qual ação posso tomar?”.
+O produto deve parecer um dashboard financeiro moderno: identidade editorial clara, títulos serifados, pouca decoração, superfícies creme e coral como accent controlado. O objetivo é ajudar a responder: “Qual é minha situação?”, “O que mudou?” e “Qual ação posso tomar?”.
 
 Este contrato não cria nem altera fórmulas, validações, limites de risco, baselines, regras temporais, critérios de conciliação, permissões ou persistência. Em caso de conflito, o domínio financeiro e seus testes prevalecem sobre um exemplo visual. Uma necessidade de mudança de domínio exige proposta separada.
 
@@ -42,12 +42,12 @@ As APIs, caminhos e tokens descritos adiante como alvo são propostas de impleme
 
 O descontrollle deve transmitir controle, transparência e tranquilidade. Usar o nome em minúsculas: **descontrollle**. O símbolo “d” pode identificar a marca, mas não substitui o nome acessível. A experiência autenticada deve ser funcional, sem estética de landing page.
 
-O dark é o tema oficial desta versão. Não criar uma variante clara parcial. A futura introdução de outro tema exige mapa completo de tokens e revisão de contraste.
+O tema oficial é claro: papel quente e texto escuro. Áreas de análise podem usar o contexto completo `.ds-inverse`, com cores próprias para texto, controles, estados e gráficos. Não inverter apenas o fundo. A referência estética é DESIGN-claude.md, sem copiar a marca ou transformar o dashboard em landing page.
 
 ### 3.2 Regras de composição
 
-- O fundo da página e as superfícies devem ser neutros, com leve matiz frio. Roxo não deve preencher a sidebar, todos os cards ou áreas extensas de conteúdo.
-- Accent é reservado à ação primária, foco, seleção e uma série de dados quando apropriado. Não usar roxo como indicador genérico de sucesso.
+- O fundo da página e as superfícies devem ser neutros, com matiz quente. Coral não deve preencher a sidebar, todos os cards ou áreas extensas de conteúdo.
+- Accent é reservado à ação primária, foco, seleção e uma série de dados quando apropriado. Não usar coral como indicador genérico de sucesso.
 - O valor de um KPI deve usar texto primário. Cor semântica fica no estado, ícone ou comparação, com legenda textual.
 - Gradientes são permitidos somente no símbolo da marca ou em uma peça de apresentação externa ao dashboard. Botões, gráficos e painéis financeiros devem ter preenchimento sólido.
 - Blur, glassmorphism, brilho, círculos decorativos e sombras coloridas não devem aparecer sobre dados.
@@ -66,25 +66,25 @@ Nomes semânticos descrevem função, não aparência. Componentes devem consumi
 
 | Token | Valor | Uso obrigatório |
 | --- | --- | --- |
-| `bg` | `#0F1117` | Fundo geral |
-| `surface-1` | `#171B24` | Sidebar e painéis |
-| `surface-2` | `#202632` | Campos e superfície elevada |
-| `surface-hover` | `#293140` | Hover neutro |
-| `border-subtle` | `#343E50` | Divisores decorativos |
-| `border-control` | `#7C899F` | Contornos necessários para identificar controles |
-| `text-primary` | `#F4F6FA` | Valores e títulos |
-| `text-secondary` | `#BDC6D6` | Descrições e labels |
-| `text-muted` | `#99A6BA` | Metadados; nunca esconder informação essencial |
-| `accent` | `#A78BFA` | Seleção, link e destaque de marca |
-| `accent-hover` | `#BBA5FF` | Hover da ação primária |
-| `accent-active` | `#9676EA` | Ação pressionada |
-| `on-accent` | `#171126` | Texto/ícone sobre accent; não usar branco |
-| `accent-subtle` | `#2B2340` | Fundo de item selecionado |
-| `success` / `success-subtle` | `#6EE7B7` / `#17332B` | Confirmação e condição positiva explicitamente definida |
-| `danger` / `danger-subtle` | `#FDA4AF` / `#3B222C` | Erro, consequência destrutiva ou condição negativa definida |
-| `warning` / `warning-subtle` | `#FCD34D` / `#362F1D` | Atenção e informação parcial |
-| `info` / `info-subtle` | `#93C5FD` / `#1F3047` | Informação contextual |
-| `focus` | `#C4B5FD` | Contorno de foco |
+| `bg` | `#faf9f5` | Fundo geral |
+| `surface-1` | `#f5f0e8` | Sidebar e painéis |
+| `surface-2` | `#efe9de` | Campos e superfície elevada |
+| `surface-hover` | `#e8e0d2` | Hover neutro |
+| `border-subtle` | `#ded7cd` | Divisores decorativos |
+| `border-control` | `#82766b` | Contornos necessários para identificar controles |
+| `text-primary` | `#141413` | Valores e títulos |
+| `text-secondary` | `#3d3d3a` | Descrições e labels |
+| `text-muted` | `#625f58` | Metadados; nunca esconder informação essencial |
+| `accent` | `#994c34` | Seleção, link e destaque de marca |
+| `accent-hover` | `#93452e` | Hover da ação primária |
+| `accent-active` | `#803c28` | Ação pressionada |
+| `on-accent` | `#faf9f5` | Texto/ícone claro sobre accent |
+| `accent-subtle` | `#f2e0d7` | Fundo de item selecionado |
+| `success` / `success-subtle` | `#27634d` / `#e0eee7` | Confirmação e condição positiva explicitamente definida |
+| `danger` / `danger-subtle` | `#a13232` / `#fae9e5` | Erro, consequência destrutiva ou condição negativa definida |
+| `warning` / `warning-subtle` | `#775500` / `#f6edce` | Atenção e informação parcial |
+| `info` / `info-subtle` | `#315e79` / `#e5eef2` | Informação contextual |
+| `focus` | `#93452e` | Contorno de foco |
 | `overlay` | `rgb(0 0 0 / 64%)` | Fundo de modal |
 
 Pares aprovados para texto: primary, secondary e muted sobre bg/surface-1/surface-2; on-accent sobre accent/hover/active; texto semântico sobre seu fundo subtle. Não usar accent-subtle como cor de texto. Bordas decorativas não identificam campos sozinhas. Novas combinações, opacidades e estados devem ter contraste verificado antes de uso.
@@ -109,21 +109,21 @@ Feedback de hover: 120 ms; mudança de estado: 180 ms; entrada de camada: 240 ms
 
 ## 5. Tipografia
 
-Família principal: Inter quando fornecida pelo projeto, com fallback `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`. A declaração atual não garante que Inter esteja carregada. Uma futura implementação deve fornecê-la localmente ou manter o fallback; não depender de download externo durante leitura dos dados.
+Títulos h1/h2 usam Copernicus Book (400); textos, controles e números usam Styrene B Regular (400) e Medium (500), fornecidas localmente via `next/font/local`, `display: swap`, sem chamadas externas. Fallback serifado: Georgia; sans: Arial/system-ui. Os arquivos fornecidos são Trial; o usuário confirmou possuir licença de uso web em 01/10/2026. Os arquivos Trial fornecidos não contêm caracteres acentuados portugueses nem o símbolo monetário `$`; estes usam fallback local. A substituição pelos arquivos completos licenciados é necessária para uniformidade tipográfica.
 
 | Estilo/token | Tamanho / entrelinha | Peso | Uso |
 | --- | --- | --- | --- |
-| `display` | 40 / 48 px | 600 | Apresentação excepcional; não usar na Home |
-| `h1` | 28 / 36 px | 600 | Um título principal por página |
-| `h2` | 20 / 28 px | 600 | Seção de conteúdo |
-| `h3` | 16 / 24 px | 600 | Subgrupo ou painel |
+| `display` | 40 / 48 px | 500 | Apresentação excepcional; não usar na Home |
+| `h1` | 36 / 44 px | 400 | Um título principal por página |
+| `h2` | 20 / 28 px | 400 | Seção de conteúdo |
+| `h3` | 16 / 24 px | 500 | Subgrupo ou painel |
 | `body` | 14 / 22 px | 400 | Descrição, tabelas e formulários |
 | `label` | 13 / 20 px | 500 | Label e botão |
 | `caption` | 12 / 18 px | 400 | Metadados e eixos |
-| `metric` | 32 / 40 px | 600 | KPI financeiro |
-| `metric-compact` | 24 / 32 px | 600 | KPI em viewport estreito |
+| `metric` | 32 / 40 px | 500 | KPI financeiro |
+| `metric-compact` | 24 / 32 px | 500 | KPI em viewport estreito |
 
-Pesos permitidos: 400, 500 e 600. Não usar 800/900 em conteúdo financeiro. Títulos e métricas podem usar tracking `-0.02em`; corpo usa 0. Não usar caixa alta em parágrafos, títulos de painéis ou labels de formulário. Uma pequena identificação de seção pode usar caption, tracking `0.04em`.
+Pesos permitidos: 400 e 500. Não usar 800/900 em conteúdo financeiro. Títulos e métricas podem usar tracking `-0.02em`; corpo usa 0. Não usar caixa alta em parágrafos, títulos de painéis ou labels de formulário. Uma pequena identificação de seção pode usar caption, tracking `0.04em`.
 
 Valores financeiros usam `font-variant-numeric: tabular-nums lining-nums`. Tabelas alinham números à direita e descrições à esquerda. Não usar fonte monoespaçada por padrão. Valores não devem ter ellipsis; para números extensos, permitir linha própria e fallback de tamanho metric-compact. Labels podem quebrar linha; textos essenciais não dependem de tooltip.
 
@@ -205,7 +205,7 @@ Esse desenho define agrupamento, não autoriza preencher lacunas com dados fict�
 
 ### 7.3 Período e disponibilidade
 
-O seletor deve refletir o mês na URL e nos blocos mensais. Na implementação futura, usar a convenção `month=YYYY-MM` dos módulos existentes e os helpers de calendário. A Home atual usa o mês corrente; adicionar seleção será trabalho separado de interface e consulta.
+O seletor deve refletir o mês na URL e nos blocos mensais. Na implementação futura, usar a convenção `month=YYYY-MM` dos módulos existentes e os helpers de calendário. A Home implementada aceita `month=YYYY-MM`. Finanças permanece no mês atual; links da Home explicitam esse destino, sem simular seleção histórica.
 
 Patrimônio é uma posição em data específica; objetivos podem ter horizonte próprio. Blocos que não seguem o mês selecionado devem exibir sua referência. Histórico de 6 ou 12 meses só deve aparecer quando consultado e validado. Não interpolar meses ausentes como zero.
 
@@ -298,7 +298,7 @@ Não usar 3D, velocímetro, radar, dupla escala, sombras de séries ou donuts co
 
 ### 9.2 Paleta de gráficos
 
-Séries categóricas, nesta ordem: `#A78BFA`, `#67E8F9`, `#FCD34D`, `#F9A8D4`, `#93C5FD`, `#CBD5E1`. Usar até seis séries; acima disso, agrupar ou oferecer seleção. Associar a cor à chave estável da categoria; não reassociar quando ordenar.
+Séries categóricas, nesta ordem: `#b7664c`, `#357f70`, `#94621e`, `#a45576`, `#426b83`, `#72685f`. No contexto inverso, as duas primeiras séries usam `ink-chart-1` e `ink-chart-2`. Usar até seis séries; acima disso, agrupar ou oferecer seleção. Associar a cor à chave estável da categoria; não reassociar quando ordenar.
 
 Receitas: success; despesas: danger; saldo: accent. Esses pares identificam tipos de fluxo e não aprovam/reprovam decisões. Usar também legenda, posição e padrão. Planejado e realizado do mesmo tipo compartilham cor, mas diferem por tracejado/contorno e label. Grid usa border-subtle; eixos usam text-muted; área usa surface-1.
 
@@ -428,51 +428,73 @@ Mensagens devem declarar o que ocorreu e a próxima ação possível. Confirmaç
 
 ## 15. Tokens CSS oficiais propostos
 
-Este bloco é a fonte de valores da versão 2.0. Deve ser incorporado em uma implementação futura, com migração dos consumidores. Não basta colá-lo em produção e manter seletores antigos conflitantes.
+Este bloco reflete os tokens da implementação editorial 3.0. O arquivo globals.css é a fonte executável; `.ds-inverse` reatribui os mesmos nomes semânticos às cores de tinta.
 
 ```css
 :root {
-  color-scheme: dark;
-  --ds-bg: #0f1117;
-  --ds-surface-1: #171b24;
-  --ds-surface-2: #202632;
-  --ds-surface-hover: #293140;
-  --ds-border-subtle: #343e50;
-  --ds-border-control: #7c899f;
-  --ds-text-primary: #f4f6fa;
-  --ds-text-secondary: #bdc6d6;
-  --ds-text-muted: #99a6ba;
-  --ds-accent: #a78bfa;
-  --ds-accent-hover: #bba5ff;
-  --ds-accent-active: #9676ea;
-  --ds-on-accent: #171126;
-  --ds-accent-subtle: #2b2340;
-  --ds-success: #6ee7b7;
-  --ds-success-subtle: #17332b;
-  --ds-danger: #fda4af;
-  --ds-danger-subtle: #3b222c;
-  --ds-warning: #fcd34d;
-  --ds-warning-subtle: #362f1d;
-  --ds-info: #93c5fd;
-  --ds-info-subtle: #1f3047;
-  --ds-focus: #c4b5fd;
+  color-scheme: light;
+  --ds-bg: #faf9f5;
+  --ds-surface-1: #f5f0e8;
+  --ds-surface-2: #efe9de;
+  --ds-surface-hover: #e8e0d2;
+  --ds-border-subtle: #ded7cd;
+  --ds-border-control: #82766b;
+  --ds-text-primary: #141413;
+  --ds-text-secondary: #3d3d3a;
+  --ds-text-muted: #625f58;
+  --ds-accent: #994c34;
+  --ds-accent-hover: #93452e;
+  --ds-accent-active: #803c28;
+  --ds-on-accent: #faf9f5;
+  --ds-accent-subtle: #f2e0d7;
+  --ds-success: #27634d;
+  --ds-success-subtle: #e0eee7;
+  --ds-danger: #a13232;
+  --ds-danger-subtle: #fae9e5;
+  --ds-warning: #775500;
+  --ds-warning-subtle: #f6edce;
+  --ds-info: #315e79;
+  --ds-info-subtle: #e5eef2;
+  --ds-focus: #93452e;
   --ds-overlay: rgb(0 0 0 / 64%);
-  --ds-chart-1: #a78bfa;
-  --ds-chart-2: #67e8f9;
-  --ds-chart-3: #fcd34d;
-  --ds-chart-4: #f9a8d4;
-  --ds-chart-5: #93c5fd;
-  --ds-chart-6: #cbd5e1;
+  --ds-chart-1: #b7664c;
+  --ds-chart-2: #357f70;
+  --ds-chart-3: #94621e;
+  --ds-chart-4: #a45576;
+  --ds-chart-5: #426b83;
+  --ds-chart-6: #72685f;
 
-  --ds-font-sans: Inter, ui-sans-serif, system-ui, -apple-system,
+  --ds-font-sans: var(--font-styrene-b), ui-sans-serif, system-ui, -apple-system,
     BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --ds-font-display: var(--font-copernicus), Georgia, "Times New Roman", serif;
+  --ds-brand-coral: #cc785c;
+  --ds-ink: #181715;
+  --ds-ink-elevated: #252320;
+  --ds-ink-hover: #35312d;
+  --ds-on-ink: #faf9f5;
+  --ds-on-ink-secondary: #d7d0c7;
+  --ds-on-ink-muted: #b8b0a5;
+  --ds-ink-border: #514b44;
+  --ds-ink-border-control: #a69b8e;
+  --ds-ink-accent: #e4a48b;
+  --ds-ink-accent-subtle: #3d2b24;
+  --ds-ink-success: #91c7a8;
+  --ds-ink-success-subtle: #23372d;
+  --ds-ink-danger: #edb0a7;
+  --ds-ink-danger-subtle: #412824;
+  --ds-ink-warning: #e4c182;
+  --ds-ink-warning-subtle: #3a3020;
+  --ds-ink-info: #abcbd9;
+  --ds-ink-info-subtle: #24333b;
+  --ds-ink-chart-1: #e4a48b;
+  --ds-ink-chart-2: #7db9a5;
   --ds-weight-regular: 400;
   --ds-weight-medium: 500;
-  --ds-weight-semibold: 600;
+  --ds-weight-semibold: 500;
   --ds-text-display: 2.5rem;
   --ds-leading-display: 3rem;
-  --ds-text-h1: 1.75rem;
-  --ds-leading-h1: 2.25rem;
+  --ds-text-h1: 2.25rem;
+  --ds-leading-h1: 2.75rem;
   --ds-text-h2: 1.25rem;
   --ds-leading-h2: 1.75rem;
   --ds-text-h3: 1rem;
@@ -542,47 +564,6 @@ Este bloco é a fonte de valores da versão 2.0. Deve ser incorporado em uma imp
   --ds-motion-standard: 180ms;
   --ds-motion-layer: 240ms;
   --ds-ease-standard: cubic-bezier(0.2, 0, 0, 1);
-}
-
-.ds-number {
-  font-variant-numeric: tabular-nums lining-nums;
-}
-
-.ds-button:focus-visible,
-.ds-icon-button:focus-visible,
-.ds-field-control:focus-visible,
-.ds-nav-link:focus-visible {
-  outline: var(--ds-focus-width) solid var(--ds-focus);
-  outline-offset: var(--ds-focus-offset);
-}
-
-/* Exemplo de grid de conteúdo; AppShell/Sidebar exigem estilos próprios. */
-.ds-dashboard-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--ds-space-4);
-}
-@media (min-width: 640px) {
-  .ds-dashboard-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-}
-@media (min-width: 1024px) {
-  .ds-dashboard-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: var(--ds-space-6);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ds-animated {
-    animation: none;
-    transition: none;
-    scroll-behavior: auto;
-  }
-}
-@media (forced-colors: active) {
-  .ds-button:focus-visible,
-  .ds-icon-button:focus-visible,
-  .ds-field-control:focus-visible,
-  .ds-nav-link:focus-visible { outline-color: Highlight; }
 }
 ```
 
@@ -698,7 +679,7 @@ Cada etapa deve manter a aplicação utilizável e ter PR revisável. Não mudar
 
 ### Conteúdo deste contrato
 
-- [ ] Identidade dark e uso controlado de roxo representam a direção desejada.
+- [ ] Identidade editorial clara e uso controlado de coral representam a direção desejada.
 - [ ] Tokens, tamanhos, breakpoints e contratos são concretos e não contraditórios.
 - [ ] Home prioriza situação financeira e ações; termos de MVP saem da experiência final.
 - [ ] Fontes de dados, períodos e indisponibilidade estão explícitos.
