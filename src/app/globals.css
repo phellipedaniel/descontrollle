@@ -387,3 +387,55 @@ textarea { font:inherit; }
   .debt-order-list li { flex-direction:column; }
   .debt-order-list strong, .debt-payment-values { text-align:left; }
 }
+
+
+/* MVP 6 — Patrimônio Líquido */
+.snapshot-inline-form { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+.snapshot-inline-form input { min-width:260px; border:1px solid var(--border); background:#2e273c; color:white; border-radius:12px; padding:13px 14px; outline:none; }
+.net-worth-grid { display:grid; grid-template-columns:1.35fr .65fr; gap:18px; margin-top:18px; }
+.net-worth-help { color:var(--muted); line-height:1.55; margin:18px 0; }
+.scope-form { display:grid; gap:22px; }
+.scope-list { display:grid; gap:8px; margin-top:10px; }
+.scope-option { display:flex; align-items:center; gap:11px; padding:12px 14px; border:1px solid var(--border); border-radius:12px; background:#30283e; cursor:pointer; }
+.scope-option input { width:16px; height:16px; accent-color:var(--purple-2); }
+.scope-option > span { display:grid; gap:3px; min-width:0; }
+.scope-option small { color:var(--faint); }
+.balance-sheet { display:grid; gap:10px; margin-top:28px; }
+.balance-sheet-row, .balance-sheet-total { display:flex; justify-content:space-between; gap:18px; padding:14px; border-radius:13px; background:#30283e; }
+.balance-sheet-row span, .balance-sheet-total span { color:var(--muted); }
+.balance-sheet-row.positive strong { color:#9ceaae; }
+.balance-sheet-row.negative strong { color:#ffb8b8; }
+.balance-sheet-total { margin-top:8px; border:1px solid rgba(172,106,236,.28); }
+.balance-sheet-total strong { font-size:20px; }
+.asset-create-panel { margin-bottom:18px; min-height:0; }
+.asset-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+.asset-card { min-height:0; }
+.asset-value { display:flex; flex-wrap:wrap; align-items:baseline; gap:8px; margin-top:20px; }
+.asset-value strong { font-size:30px; }
+.asset-value span { color:var(--muted); font-size:13px; }
+.valuation-history { display:grid; gap:0; margin-top:18px; padding-top:16px; border-top:1px solid var(--border); }
+.valuation-row { display:flex; justify-content:space-between; gap:14px; padding:10px 0; border-bottom:1px solid var(--border); font-size:12px; }
+.valuation-row:last-child { border-bottom:0; }
+.valuation-row span { color:var(--faint); }
+.snapshot-list { display:grid; }
+.snapshot-row { display:grid; grid-template-columns:minmax(150px,.7fr) minmax(280px,1.5fr) minmax(140px,.6fr); align-items:center; gap:18px; padding:16px 0; border-bottom:1px solid var(--border); }
+.snapshot-row:last-child { border-bottom:0; }
+.snapshot-row > div:first-child, .snapshot-total { display:grid; gap:4px; }
+.snapshot-row span { color:var(--faint); font-size:12px; }
+.snapshot-components { display:flex; flex-wrap:wrap; gap:8px; }
+.snapshot-components span { padding:7px 9px; border-radius:9px; background:#30283e; }
+.snapshot-total { text-align:right; }
+.snapshot-total strong { font-size:18px; }
+@media(max-width:1000px) {
+  .net-worth-grid { grid-template-columns:1fr; }
+  .snapshot-row { grid-template-columns:1fr; }
+  .snapshot-total { text-align:left; }
+}
+@media(max-width:900px) {
+  .asset-grid { grid-template-columns:1fr; }
+}
+@media(max-width:640px) {
+  .snapshot-inline-form { display:grid; width:100%; }
+  .snapshot-inline-form input { min-width:0; width:100%; }
+  .valuation-row { flex-direction:column; }
+}
