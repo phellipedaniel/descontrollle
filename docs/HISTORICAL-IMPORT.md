@@ -101,3 +101,35 @@ O repositório contém a estrutura e as regras gerais. Arquivos de origem, paylo
 Na validação da camada de fontes foram verificados: recarga sem novas linhas, rejeição de chaves duplicadas, candidatos sem data/valor, valores não positivos e parcelas inválidas; também foram conferidos RLS e privilégios. A vinculação do proprietário foi verificada com leitura permitida ao dono e leitura/alteração sem acesso por outra identidade.
 
 A migration corresponde à estrutura já aplicada no banco. Versioná-la não promove despesas para as tabelas operacionais. Totais e resultados de cada carga ficam nos relatórios privados.
+
+## Promoção operacional e reexecução
+
+A promoção operacional foi executada e verificada em 01/10/2026. A execução específica, os identificadores e os resultados financeiros permanecem em relatório privado. Nenhum payload de produção é distribuído neste repositório.
+
+O procedimento administrativo utilizado segue esta sequência:
+
+1. Abrir uma transação e bloquear as tabelas envolvidas durante a carga.
+2. Conferir proprietário, conta de destino, estado dos lotes, chaves únicas e totais esperados.
+3. Comparar cada agregado mensal com o staging de períodos e rejeitar despesas sem período correspondente.
+4. Reutilizar as classificações curadas; manter categoria nula quando não houver classificação confiável e meio de pagamento nulo quando desconhecido.
+5. Inserir despesas, preservar a procedência e registrar o vínculo em `imported_transaction_id`.
+6. Conferir novamente contagens e valores de cada mês, além da propriedade das referências.
+7. Criar os períodos conforme `target_period_status` e `close_after_import`, mantendo `reconciliation_status` independente do fechamento.
+8. Marcar os lotes promovidos e confirmar a transação somente se todas as verificações passarem.
+
+Antes da aplicação, executar a mesma carga com rollback. Conflitos com dados operacionais existentes devem interromper a operação para revisão, sem sobrescrever transações. Uma reexecução de lotes já promovidos só pode terminar sem alterações quando os vínculos e os dados esperados ainda conferirem.
+
+O conteúdo original das despesas em staging deve permanecer idêntico, exceto pelo vínculo à transação. Eventos de pagamento/acerto, fontes alternativas, duplicatas e itens sem valor ficam separados da carga de despesas. O estado `promoted` se refere às despesas curadas do lote e não significa que todas as pendências da fonte foram resolvidas.
+
+### Verificações de autorização realizadas
+
+Os testes no banco utilizaram o papel `authenticated`, com identidade definida apenas no contexto transacional e rollback ao final:
+
+- O proprietário consultou as despesas importadas e o total esperado.
+- Uma identidade diferente não consultou dados do proprietário nem inseriu, alterou ou excluiu suas despesas.
+- Meses fechados rejeitaram novas despesas e não permitiram edição, exclusão ou reabertura pelo fluxo normal.
+- A reexecução da carga não criou novas despesas.
+
+Esses testes validam as políticas do banco; não substituem testes de navegação com duas sessões reais. Fechar um período com pendências preserva o estado de reconciliação e exige um procedimento administrativo controlado para futuras correções.
+
+A conta histórica usa saldo inicial técnico. Uma carga de despesas, isoladamente, não reconstrói receitas nem comprova saldo bancário.
