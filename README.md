@@ -29,11 +29,17 @@ Gerenciador de finanças pessoais orientado a planejamento financeiro.
 
 ## MVP 7 — Motor de planejamento
 - Futuro planejado × cenário histórico provável
-- Planos mensais explícitos com fallback configurável
-- Metas, provisões, dívidas e reserva como compromissos
-- Detecção de dados históricos incompletos
-- Margem mensal e acumulada em horizonte de 3 a 24 meses
+- Integração de compromissos e margem futura
 - [Escopo, cálculos e testes](docs/MVP-7.md)
+
+## MVP 8 — Comportamento financeiro
+- Baseline com períodos fechados e reconciliados
+- Tendência mensal e frequência de dias com gasto
+- Movimento por categoria
+- Concentração por estabelecimento condicionada à cobertura dos dados
+- Regras de atenção configuráveis
+- Check-in mensal escrito pelo usuário
+- [Escopo, cálculos e testes](docs/MVP-8.md)
 
 Rotas principais:
 - `/` — visão geral
@@ -44,6 +50,7 @@ Rotas principais:
 - `/debts` — gestão de dívidas
 - `/net-worth` — patrimônio líquido
 - `/forecast` — motor de planejamento e projeções
+- `/behavior` — revisão de comportamento financeiro
 
 ## Segurança
 - Nenhuma `service_role`/secret key é exposta ao frontend.
