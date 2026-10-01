@@ -22,16 +22,8 @@ export default async function Dashboard() {
     { data: planData, error: planDataError },
   ] = await Promise.all([
     supabase.from("accounts").select("id"),
-    supabase
-      .from("transactions")
-      .select("kind, amount")
-      .gte("occurred_on", start)
-      .lt("occurred_on", end),
-    supabase
-      .from("monthly_plans")
-      .select("id, planned_income")
-      .eq("month", start)
-      .maybeSingle(),
+    supabase.from("transactions").select("kind, amount").gte("occurred_on", start).lt("occurred_on", end),
+    supabase.from("monthly_plans").select("id, planned_income").eq("month", start).maybeSingle(),
   ]);
 
   if (accountsDataError || transactionsDataError || planDataError) {
@@ -48,16 +40,9 @@ export default async function Dashboard() {
 
   let plannedExpense = 0;
   if (planData?.id) {
-    const { data: budgetsData, error: budgetsError } = await supabase
-      .from("category_budgets")
-      .select("planned_amount")
-      .eq("plan_id", planData.id);
-
+    const { data: budgetsData, error: budgetsError } = await supabase.from("category_budgets").select("planned_amount").eq("plan_id", planData.id);
     if (budgetsError) throw new Error("Não foi possível carregar o orçamento.");
-    plannedExpense = (budgetsData ?? []).reduce(
-      (sum, budget) => sum + numberValue(budget.planned_amount),
-      0,
-    );
+    plannedExpense = (budgetsData ?? []).reduce((sum, budget) => sum + numberValue(budget.planned_amount), 0);
   }
 
   const plannedIncome = numberValue(planData?.planned_income);
@@ -66,30 +51,10 @@ export default async function Dashboard() {
   const email = userData.user.email ?? "Minha conta";
 
   const cards = [
-    {
-      label: "Saldo previsto",
-      value: formatBRL(plannedBalance),
-      note: hasPlan ? "plano de " + currentMonthLabel() : "planeje este mês",
-      tone: "purple",
-    },
-    {
-      label: "Saldo realizado",
-      value: formatBRL(actualBalance),
-      note: currentMonthLabel(),
-      tone: "blue",
-    },
-    {
-      label: "Receitas",
-      value: formatBRL(actualIncome),
-      note: hasPlan ? "previsto " + formatBRL(plannedIncome) : incomeTransactions.length + " lançamentos",
-      tone: "green",
-    },
-    {
-      label: "Despesas",
-      value: formatBRL(actualExpense),
-      note: hasPlan ? "limite " + formatBRL(plannedExpense) : expenseTransactions.length + " lançamentos",
-      tone: "red",
-    },
+    { label: "Saldo previsto", value: formatBRL(plannedBalance), note: hasPlan ? "plano de " + currentMonthLabel() : "planeje este mês", tone: "purple" },
+    { label: "Saldo realizado", value: formatBRL(actualBalance), note: currentMonthLabel(), tone: "blue" },
+    { label: "Receitas", value: formatBRL(actualIncome), note: hasPlan ? "previsto " + formatBRL(plannedIncome) : incomeTransactions.length + " lançamentos", tone: "green" },
+    { label: "Despesas", value: formatBRL(actualExpense), note: hasPlan ? "limite " + formatBRL(plannedExpense) : expenseTransactions.length + " lançamentos", tone: "red" },
   ];
 
   const maxComparison = Math.max(plannedIncome, actualIncome, plannedExpense, actualExpense, 1);
@@ -98,39 +63,34 @@ export default async function Dashboard() {
   return (
     <main className="app-shell">
       <Sidebar active="dashboard" />
-
       <section className="workspace">
         <header className="topbar">
-          <div>
-            <span className="eyebrow">DESCONTROLLLE · MVP 3</span>
-            <h1>Visão geral</h1>
-          </div>
+          <div><span className="eyebrow">DESCONTROLLLE · MVP 4</span><h1>Visão geral</h1></div>
           <div className="profile-chip"><span className="status-dot" />{email}</div>
         </header>
 
         <section className="hero-card">
           <div>
-            <span className="eyebrow">PLANEJAMENTO ATIVO</span>
-            <h2>Agora o realizado tem um plano para ser comparado.</h2>
-            <p>O diagnóstico registra o que aconteceu. O planejamento mensal define antecipadamente o que deveria acontecer e mostra o desvio enquanto ainda há tempo para corrigir.</p>
+            <span className="eyebrow">PLANEJAMENTO + PROTEÇÃO</span>
+            <h2>Planejar o futuro também significa proteger o que já funciona.</h2>
+            <p>Diagnóstico, orçamento, objetivos e segurança financeira agora fazem parte do mesmo ciclo. A reserva cobre imprevistos; provisões preparam gastos previsíveis.</p>
             <div className="hero-actions">
               <Link className="button primary inline-button" href={"/planning?month=" + currentMonthKey()}>Planejar este mês</Link>
-              <Link className="button secondary inline-button" href="/finance">Registrar movimentação</Link>
+              <Link className="button secondary inline-button" href="/resilience">Ver segurança financeira</Link>
             </div>
           </div>
           <div className="hero-status">
             <span>Diagnóstico financeiro</span><strong>ativo</strong>
             <span>Planejamento mensal</span><strong>ativo</strong>
             <span>Objetivos financeiros</span><strong>ativo</strong>
+            <span>Segurança financeira</span><strong>ativo</strong>
           </div>
         </section>
 
         <section className="metric-grid">
           {cards.map((card) => (
             <article className={"metric-card " + card.tone} key={card.label}>
-              <span>{card.label}</span>
-              <strong>{card.value}</strong>
-              <small>{card.note}</small>
+              <span>{card.label}</span><strong>{card.value}</strong><small>{card.note}</small>
             </article>
           ))}
         </section>
@@ -141,37 +101,22 @@ export default async function Dashboard() {
               <div><span className="eyebrow">PLANEJADO × REALIZADO</span><h3>Fluxo do mês</h3></div>
               <span className="pill">{currentMonthLabel()}</span>
             </div>
-
             {!hasPlan && transactions.length === 0 ? (
-              <div className="empty-chart">
-                <div className="grid-lines" />
-                <div className="chart-message">
-                  <strong>O mês ainda está vazio</strong>
-                  <span>Crie um plano ou registre uma movimentação para iniciar a comparação.</span>
-                </div>
-              </div>
+              <div className="empty-chart"><div className="grid-lines" /><div className="chart-message"><strong>O mês ainda está vazio</strong><span>Crie um plano ou registre uma movimentação para iniciar a comparação.</span></div></div>
             ) : (
               <div className="comparison-chart">
                 <div className="comparison-group">
-                  <div className="comparison-heading">
-                    <span>Receitas</span>
-                    <strong>{formatBRL(actualIncome)} realizado</strong>
-                  </div>
+                  <div className="comparison-heading"><span>Receitas</span><strong>{formatBRL(actualIncome)} realizado</strong></div>
                   <div className="comparison-track"><span className="comparison-plan income" style={{ width: percent(plannedIncome) + "%" }} /></div>
                   <div className="comparison-track"><span className="comparison-actual income" style={{ width: percent(actualIncome) + "%" }} /></div>
                   <div className="comparison-legend"><span>Planejado {formatBRL(plannedIncome)}</span><span>Realizado {formatBRL(actualIncome)}</span></div>
                 </div>
-
                 <div className="comparison-group">
-                  <div className="comparison-heading">
-                    <span>Despesas</span>
-                    <strong>{formatBRL(actualExpense)} realizado</strong>
-                  </div>
+                  <div className="comparison-heading"><span>Despesas</span><strong>{formatBRL(actualExpense)} realizado</strong></div>
                   <div className="comparison-track"><span className="comparison-plan expense" style={{ width: percent(plannedExpense) + "%" }} /></div>
                   <div className="comparison-track"><span className="comparison-actual expense" style={{ width: percent(actualExpense) + "%" }} /></div>
                   <div className="comparison-legend"><span>Planejado {formatBRL(plannedExpense)}</span><span>Realizado {formatBRL(actualExpense)}</span></div>
                 </div>
-
                 <div className="comparison-result">
                   <div><span>Saldo previsto</span><strong>{formatBRL(plannedBalance)}</strong></div>
                   <div><span>Saldo realizado</span><strong>{formatBRL(actualBalance)}</strong></div>
@@ -181,10 +126,10 @@ export default async function Dashboard() {
           </article>
 
           <article className="panel roadmap-panel">
-            <span className="eyebrow">SEUS OBJETIVOS</span>
-            <h3>MVP 3 · Objetivos Financeiros</h3>
-            <p>Defina o valor e o prazo da sua próxima conquista. Registre seus aportes e acompanhe quanto falta reservar.</p>
-            <Link className="button primary inline-button" href="/goals">Acompanhar objetivos</Link>
+            <span className="eyebrow">SEGURANÇA FINANCEIRA</span>
+            <h3>MVP 4 · Resiliência</h3>
+            <p>Defina despesas essenciais, dimensione sua reserva e tire gastos previsíveis da conta de emergência.</p>
+            <Link className="button primary inline-button" href="/resilience">Configurar proteção</Link>
           </article>
         </section>
       </section>
