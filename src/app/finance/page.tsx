@@ -1,5 +1,7 @@
-import { redirect } from "next/navigation";\nimport Link from "next/link";
-import { Sidebar } from "@/components/sidebar";\nimport { paymentMethodLabel, type PaymentMethod } from "@/lib/automation";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import { Sidebar } from "@/components/sidebar";
+import { paymentMethodLabel, type PaymentMethod } from "@/lib/automation";
 import {
   accountTypeLabel,
   currentMonthLabel,
