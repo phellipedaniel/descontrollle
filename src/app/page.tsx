@@ -22,8 +22,8 @@ export default async function Dashboard() {
     { data: planData, error: planDataError },
   ] = await Promise.all([
     supabase.from("accounts").select("id"),
-    supabase.from("transactions").select("kind, amount").gte("occurred_on", start).lt("occurred_on", end),
-    supabase.from("monthly_plans").select("id, planned_income").eq("month", start).maybeSingle(),
+    supabase.from("transactions").select("kind,amount").gte("occurred_on",start).lt("occurred_on",end),
+    supabase.from("monthly_plans").select("id,planned_income").eq("month",start).maybeSingle(),
   ]);
 
   if (accountsDataError || transactionsDataError || planDataError) {
@@ -34,15 +34,18 @@ export default async function Dashboard() {
   const transactions = transactionsData ?? [];
   const incomeTransactions = transactions.filter((transaction) => transaction.kind === "income");
   const expenseTransactions = transactions.filter((transaction) => transaction.kind === "expense");
-  const actualIncome = incomeTransactions.reduce((sum, transaction) => sum + numberValue(transaction.amount), 0);
-  const actualExpense = expenseTransactions.reduce((sum, transaction) => sum + numberValue(transaction.amount), 0);
+  const actualIncome = incomeTransactions.reduce((sum,transaction) => sum + numberValue(transaction.amount),0);
+  const actualExpense = expenseTransactions.reduce((sum,transaction) => sum + numberValue(transaction.amount),0);
   const actualBalance = actualIncome - actualExpense;
 
   let plannedExpense = 0;
   if (planData?.id) {
-    const { data: budgetsData, error: budgetsError } = await supabase.from("category_budgets").select("planned_amount").eq("plan_id", planData.id);
+    const { data: budgetsData, error: budgetsError } = await supabase
+      .from("category_budgets")
+      .select("planned_amount")
+      .eq("plan_id",planData.id);
     if (budgetsError) throw new Error("Não foi possível carregar o orçamento.");
-    plannedExpense = (budgetsData ?? []).reduce((sum, budget) => sum + numberValue(budget.planned_amount), 0);
+    plannedExpense = (budgetsData ?? []).reduce((sum,budget) => sum + numberValue(budget.planned_amount),0);
   }
 
   const plannedIncome = numberValue(planData?.planned_income);
@@ -51,39 +54,43 @@ export default async function Dashboard() {
   const email = userData.user.email ?? "Minha conta";
 
   const cards = [
-    { label: "Saldo previsto", value: formatBRL(plannedBalance), note: hasPlan ? "plano de " + currentMonthLabel() : "planeje este mês", tone: "purple" },
-    { label: "Saldo realizado", value: formatBRL(actualBalance), note: currentMonthLabel(), tone: "blue" },
-    { label: "Receitas", value: formatBRL(actualIncome), note: hasPlan ? "previsto " + formatBRL(plannedIncome) : incomeTransactions.length + " lançamentos", tone: "green" },
-    { label: "Despesas", value: formatBRL(actualExpense), note: hasPlan ? "limite " + formatBRL(plannedExpense) : expenseTransactions.length + " lançamentos", tone: "red" },
+    { label:"Saldo previsto", value:formatBRL(plannedBalance), note:hasPlan ? "plano de " + currentMonthLabel() : "planeje este mês", tone:"purple" },
+    { label:"Saldo realizado", value:formatBRL(actualBalance), note:currentMonthLabel(), tone:"blue" },
+    { label:"Receitas", value:formatBRL(actualIncome), note:hasPlan ? "previsto " + formatBRL(plannedIncome) : incomeTransactions.length + " lançamentos", tone:"green" },
+    { label:"Despesas", value:formatBRL(actualExpense), note:hasPlan ? "limite " + formatBRL(plannedExpense) : expenseTransactions.length + " lançamentos", tone:"red" },
   ];
 
-  const maxComparison = Math.max(plannedIncome, actualIncome, plannedExpense, actualExpense, 1);
-  const percent = (value: number) => Math.round((value / maxComparison) * 100);
+  const maxComparison = Math.max(plannedIncome,actualIncome,plannedExpense,actualExpense,1);
+  const percent = (value:number) => Math.round((value / maxComparison) * 100);
 
   return (
     <main className="app-shell">
       <Sidebar active="dashboard" />
       <section className="workspace">
         <header className="topbar">
-          <div><span className="eyebrow">DESCONTROLLLE · MVP 7</span><h1>Visão geral</h1></div>
+          <div><span className="eyebrow">DESCONTROLLLE · MVP 8</span><h1>Visão geral</h1></div>
           <div className="profile-chip"><span className="status-dot" />{email}</div>
         </header>
 
         <section className="hero-card">
           <div>
-            <span className="eyebrow">PLANEJAMENTO + PROTEÇÃO</span>
-            <h2>O plano financeiro agora pode ser projetado para frente.</h2>
-            <p>O motor conecta orçamento, metas, reserva, provisões e dívidas para comparar o futuro planejado com um cenário histórico provável.</p>
+            <span className="eyebrow">PLANEJAR · EXECUTAR · REVISAR</span>
+            <h2>O descontrollle agora também mostra como o plano se comporta na prática.</h2>
+            <p>Além de registrar e projetar, você pode revisar padrões mensais, mudanças por categoria e registrar um check-in sem transformar os dados em julgamento.</p>
             <div className="hero-actions">
               <Link className="button primary inline-button" href={"/planning?month=" + currentMonthKey()}>Planejar este mês</Link>
-              <Link className="button secondary inline-button" href="/forecast">Abrir projeções</Link>
+              <Link className="button secondary inline-button" href="/behavior">Revisar comportamento</Link>
             </div>
           </div>
           <div className="hero-status">
             <span>Diagnóstico financeiro</span><strong>ativo</strong>
             <span>Planejamento mensal</span><strong>ativo</strong>
             <span>Objetivos financeiros</span><strong>ativo</strong>
-            <span>Segurança financeira</span><strong>ativo</strong>\n            <span>Gestão de dívidas</span><strong>ativo</strong>\n            <span>Patrimônio líquido</span><strong>ativo</strong>\n            <span>Motor de planejamento</span><strong>ativo</strong>
+            <span>Segurança financeira</span><strong>ativo</strong>
+            <span>Gestão de dívidas</span><strong>ativo</strong>
+            <span>Patrimônio líquido</span><strong>ativo</strong>
+            <span>Motor de planejamento</span><strong>ativo</strong>
+            <span>Comportamento financeiro</span><strong>ativo</strong>
           </div>
         </section>
 
@@ -107,14 +114,14 @@ export default async function Dashboard() {
               <div className="comparison-chart">
                 <div className="comparison-group">
                   <div className="comparison-heading"><span>Receitas</span><strong>{formatBRL(actualIncome)} realizado</strong></div>
-                  <div className="comparison-track"><span className="comparison-plan income" style={{ width: percent(plannedIncome) + "%" }} /></div>
-                  <div className="comparison-track"><span className="comparison-actual income" style={{ width: percent(actualIncome) + "%" }} /></div>
+                  <div className="comparison-track"><span className="comparison-plan income" style={{width:percent(plannedIncome) + "%"}} /></div>
+                  <div className="comparison-track"><span className="comparison-actual income" style={{width:percent(actualIncome) + "%"}} /></div>
                   <div className="comparison-legend"><span>Planejado {formatBRL(plannedIncome)}</span><span>Realizado {formatBRL(actualIncome)}</span></div>
                 </div>
                 <div className="comparison-group">
                   <div className="comparison-heading"><span>Despesas</span><strong>{formatBRL(actualExpense)} realizado</strong></div>
-                  <div className="comparison-track"><span className="comparison-plan expense" style={{ width: percent(plannedExpense) + "%" }} /></div>
-                  <div className="comparison-track"><span className="comparison-actual expense" style={{ width: percent(actualExpense) + "%" }} /></div>
+                  <div className="comparison-track"><span className="comparison-plan expense" style={{width:percent(plannedExpense) + "%"}} /></div>
+                  <div className="comparison-track"><span className="comparison-actual expense" style={{width:percent(actualExpense) + "%"}} /></div>
                   <div className="comparison-legend"><span>Planejado {formatBRL(plannedExpense)}</span><span>Realizado {formatBRL(actualExpense)}</span></div>
                 </div>
                 <div className="comparison-result">
@@ -126,10 +133,10 @@ export default async function Dashboard() {
           </article>
 
           <article className="panel roadmap-panel">
-            <span className="eyebrow">SEGURANÇA FINANCEIRA</span>
-            <h3>MVP 4 · Resiliência</h3>
-            <p>Defina despesas essenciais, dimensione sua reserva e tire gastos previsíveis da conta de emergência.</p>
-            <Link className="button primary inline-button" href="/resilience">Configurar proteção</Link>
+            <span className="eyebrow">COMPORTAMENTO FINANCEIRO</span>
+            <h3>MVP 8 · Revisão</h3>
+            <p>Compare o mês com baselines confiáveis, veja mudanças por categoria e registre a ação que faz sentido para você.</p>
+            <Link className="button primary inline-button" href="/behavior">Abrir revisão</Link>
           </article>
         </section>
       </section>
