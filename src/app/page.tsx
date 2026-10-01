@@ -65,25 +65,25 @@ export default async function Dashboard() {
       <Sidebar active="dashboard" />
       <section className="workspace">
         <header className="topbar">
-          <div><span className="eyebrow">DESCONTROLLLE · MVP 4</span><h1>Visão geral</h1></div>
+          <div><span className="eyebrow">DESCONTROLLLE · MVP 5</span><h1>Visão geral</h1></div>
           <div className="profile-chip"><span className="status-dot" />{email}</div>
         </header>
 
         <section className="hero-card">
           <div>
             <span className="eyebrow">PLANEJAMENTO + PROTEÇÃO</span>
-            <h2>Planejar o futuro também significa proteger o que já funciona.</h2>
-            <p>Diagnóstico, orçamento, objetivos e segurança financeira agora fazem parte do mesmo ciclo. A reserva cobre imprevistos; provisões preparam gastos previsíveis.</p>
+            <h2>Planejamento, proteção e dívidas agora cabem no mesmo mapa financeiro.</h2>
+            <p>Além de planejar, proteger e definir objetivos, você pode mapear dívidas e acompanhar uma estratégia de quitação sem misturar pagamentos com novas despesas.</p>
             <div className="hero-actions">
               <Link className="button primary inline-button" href={"/planning?month=" + currentMonthKey()}>Planejar este mês</Link>
-              <Link className="button secondary inline-button" href="/resilience">Ver segurança financeira</Link>
+              <Link className="button secondary inline-button" href="/debts">Ver dívidas</Link>
             </div>
           </div>
           <div className="hero-status">
             <span>Diagnóstico financeiro</span><strong>ativo</strong>
             <span>Planejamento mensal</span><strong>ativo</strong>
             <span>Objetivos financeiros</span><strong>ativo</strong>
-            <span>Segurança financeira</span><strong>ativo</strong>
+            <span>Segurança financeira</span><strong>ativo</strong>\n            <span>Gestão de dívidas</span><strong>ativo</strong>
           </div>
         </section>
 
