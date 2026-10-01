@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { Sidebar } from "@/components/sidebar";
+import { paymentMethodLabel, type PaymentMethod } from "@/lib/automation";
 import {
   accountTypeLabel,
   currentMonthLabel,
@@ -31,24 +33,42 @@ export default async function FinancePage({
   if (authError || !userData.user) redirect("/login");
   const { start, end } = currentMonthRange();
 
+  const { data: currentPeriod, error: currentPeriodError } = await supabase
+    .from("financial_periods")
+    .select("status")
+    .eq("month", start)
+    .maybeSingle();
+
+  if (currentPeriodError) throw new Error("Não foi possível verificar o fechamento do mês.");
+
+  const currentClosed = currentPeriod?.status === "closed";
+  if (!currentClosed) {
+    const { error: syncError } = await supabase.rpc("sync_recurring_month", { p_month: start });
+    if (syncError) throw new Error("Não foi possível sincronizar os gastos recorrentes do mês.");
+  }
+
   const [
     { data: accountsData, error: accountsDataError },
     { data: categoriesData, error: categoriesDataError },
     { data: monthTransactionsData, error: monthTransactionsDataError },
     { data: recentTransactionsData, error: recentTransactionsDataError },
+    { data: merchantsData, error: merchantsDataError },
+    { data: paymentMethodsData, error: paymentMethodsDataError },
   ] = await Promise.all([
     supabase.from("accounts").select("id, name, account_type, initial_balance, currency, created_at").order("created_at"),
     supabase.from("categories").select("id, name, kind, created_at").order("kind").order("name"),
     supabase.from("transactions").select("kind, amount").gte("occurred_on", start).lt("occurred_on", end),
     supabase
       .from("transactions")
-      .select("id, account_id, category_id, kind, amount, occurred_on, description, created_at")
+      .select("id, account_id, category_id, merchant_id, payment_method_id, source_type, recurring_expense_id, recurring_period, kind, amount, occurred_on, description, created_at")
       .order("occurred_on", { ascending: false })
       .order("created_at", { ascending: false })
       .limit(20),
+    supabase.from("merchants").select("id,name").eq("is_active",true).order("name"),
+    supabase.from("payment_methods").select("id,kind,name,card_brand,is_active,created_at,updated_at").eq("is_active",true).order("name"),
   ]);
 
-  if (accountsDataError || categoriesDataError || monthTransactionsDataError || recentTransactionsDataError) {
+  if (accountsDataError || categoriesDataError || monthTransactionsDataError || recentTransactionsDataError || merchantsDataError || paymentMethodsDataError) {
     throw new Error("Não foi possível carregar os dados financeiros.");
   }
 
@@ -56,6 +76,8 @@ export default async function FinancePage({
   const categories = (categoriesData ?? []) as Category[];
   const monthTransactions = monthTransactionsData ?? [];
   const recentTransactions = (recentTransactionsData ?? []) as FinancialTransaction[];
+  const merchants = (merchantsData ?? []) as Array<{id:string;name:string}>;
+  const paymentMethods = (paymentMethodsData ?? []) as PaymentMethod[];
 
   const incomeCategories = categories.filter((category) => category.kind === "income");
   const expenseCategories = categories.filter((category) => category.kind === "expense");
@@ -69,6 +91,8 @@ export default async function FinancePage({
 
   const accountNames = new Map(accounts.map((account) => [account.id, account.name]));
   const categoryNames = new Map(categories.map((category) => [category.id, category.name]));
+  const merchantNames = new Map(merchants.map((merchant) => [merchant.id, merchant.name]));
+  const paymentMethodMap = new Map(paymentMethods.map((method) => [method.id, method]));
   const email = userData.user.email ?? "Minha conta";
 
   const summaryCards = [
@@ -85,7 +109,7 @@ export default async function FinancePage({
       <section className="workspace">
         <header className="topbar">
           <div>
-            <span className="eyebrow">DESCONTROLLLE · MVP 1</span>
+            <span className="eyebrow">DESCONTROLLLE · MVP 9</span>
             <h1>Diagnóstico financeiro</h1>
           </div>
           <div className="profile-chip"><span className="status-dot" />{email}</div>
@@ -94,8 +118,11 @@ export default async function FinancePage({
         <section className="hero-card">
           <div>
             <span className="eyebrow">DADOS FINANCEIROS</span>
-            <h2>Registre o presente antes de planejar o futuro.</h2>
-            <p>Contas, categorias e movimentações formam a fotografia financeira que os próximos MVPs usarão para projetar objetivos e desvios.</p>
+            <h2>Registre o presente e deixe o repetitivo para a automação.</h2>
+            <p>Lançamentos manuais convivem com recorrências automáticas, formas de pagamento e a trava definitiva dos meses fechados.</p>
+          </div>
+          <div className="hero-actions">
+            <Link className="button secondary inline-button" href="/automation">Central de Automação</Link>
           </div>
           <div className="hero-status">
             <span>Mês atual</span><strong>{currentMonthLabel()}</strong>
@@ -106,6 +133,7 @@ export default async function FinancePage({
 
         {params.error && <div className="alert error">{params.error}</div>}
         {params.message && <div className="alert success">{params.message}</div>}
+        {currentClosed && <div className="alert forecast-warning">O mês atual está fechado. Novos lançamentos, exclusões e sincronizações desse período estão bloqueados.</div>}
 
         <section className="metric-grid">
           {summaryCards.map((card) => (
@@ -203,7 +231,7 @@ export default async function FinancePage({
                 <span>Descrição</span>
                 <input name="description" maxLength={160} placeholder="Ex.: Salário" />
               </label>
-              <button className="button positive" type="submit" disabled={!accounts.length}>Registrar receita</button>
+              <button className="button positive" type="submit" disabled={!accounts.length || currentClosed}>Registrar receita</button>
             </form>
           </article>
 
@@ -235,11 +263,27 @@ export default async function FinancePage({
                   {expenseCategories.map((category) => <option value={category.id} key={category.id}>{category.name}</option>)}
                 </select>
               </label>
+              <div className="form-row">
+                <label className="field">
+                  <span>Estabelecimento</span>
+                  <select name="merchant_id" defaultValue="">
+                    <option value="">Não informar</option>
+                    {merchants.map((merchant) => <option value={merchant.id} key={merchant.id}>{merchant.name}</option>)}
+                  </select>
+                </label>
+                <label className="field">
+                  <span>Forma de pagamento</span>
+                  <select name="payment_method_id" defaultValue="">
+                    <option value="">Não informar</option>
+                    {paymentMethods.map((method) => <option value={method.id} key={method.id}>{paymentMethodLabel(method)}</option>)}
+                  </select>
+                </label>
+              </div>
               <label className="field">
                 <span>Descrição</span>
                 <input name="description" maxLength={160} placeholder="Ex.: Supermercado" />
               </label>
-              <button className="button negative" type="submit" disabled={!accounts.length}>Registrar despesa</button>
+              <button className="button negative" type="submit" disabled={!accounts.length || currentClosed}>Registrar despesa</button>
             </form>
           </article>
         </section>
@@ -280,20 +324,26 @@ export default async function FinancePage({
             {recentTransactions.length === 0 && <div className="empty-state">Nenhuma movimentação registrada.</div>}
             {recentTransactions.map((transaction) => {
               const categoryName = transaction.category_id ? categoryNames.get(transaction.category_id) : undefined;
+              const merchantName = transaction.merchant_id ? merchantNames.get(transaction.merchant_id) : undefined;
+              const method = transaction.payment_method_id ? paymentMethodMap.get(transaction.payment_method_id) : undefined;
+              const automatic = transaction.source_type === "recurring";
               return (
                 <div className="data-row transaction-row" key={transaction.id}>
                   <div className="data-row-main">
                     <strong>{transaction.description || categoryName || (transaction.kind === "income" ? "Receita" : "Despesa")}</strong>
-                    <span>{formatDate(transaction.occurred_on)} · {accountNames.get(transaction.account_id) ?? "Conta"}{categoryName ? " · " + categoryName : ""}</span>
+                    <span>{formatDate(transaction.occurred_on)} · {accountNames.get(transaction.account_id) ?? "Conta"}{categoryName ? " · " + categoryName : ""}{merchantName ? " · " + merchantName : ""}{method ? " · " + paymentMethodLabel(method) : ""}</span>
                   </div>
                   <div className="transaction-actions">
+                    {automatic && <span className="pill automation-pill">automática</span>}
                     <strong className={"amount " + transaction.kind}>
                       {transaction.kind === "income" ? "+" : "−"} {formatBRL(transaction.amount)}
                     </strong>
-                    <form action={deleteTransaction}>
-                      <input type="hidden" name="id" value={transaction.id} />
-                      <button className="icon-button danger" type="submit" aria-label="Excluir movimentação">×</button>
-                    </form>
+                    {!automatic && !currentClosed && (
+                      <form action={deleteTransaction}>
+                        <input type="hidden" name="id" value={transaction.id} />
+                        <button className="icon-button danger" type="submit" aria-label="Excluir movimentação">×</button>
+                      </form>
+                    )}
                   </div>
                 </div>
               );

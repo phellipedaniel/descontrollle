@@ -20,6 +20,11 @@ export type FinancialTransaction = {
   id: string;
   account_id: string;
   category_id: string | null;
+  merchant_id: string | null;
+  payment_method_id: string | null;
+  source_type: "manual" | "historical_import" | "recurring" | "bank_import";
+  recurring_expense_id: string | null;
+  recurring_period: string | null;
   kind: FinanceKind;
   amount: number | string;
   occurred_on: string;

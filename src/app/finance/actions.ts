@@ -14,6 +14,7 @@ function fail(message: string): never {
 function success(message: string): never {
   revalidatePath("/");
   revalidatePath("/finance");
+  revalidatePath("/automation");
   redirect("/finance?message=" + encodeURIComponent(message));
 }
 
@@ -90,6 +91,8 @@ export async function createTransaction(formData: FormData) {
   const occurredOn = cleanText(formData.get("occurred_on"));
   const accountId = cleanText(formData.get("account_id"));
   const categoryId = cleanText(formData.get("category_id"));
+  const merchantId = cleanText(formData.get("merchant_id"));
+  const paymentMethodId = cleanText(formData.get("payment_method_id"));
   const description = cleanText(formData.get("description"));
 
   if (!KINDS.has(kind)) fail("Tipo de movimentação inválido.");
@@ -117,16 +120,43 @@ export async function createTransaction(formData: FormData) {
     if (category.kind !== kind) fail("A categoria não corresponde ao tipo do lançamento.");
   }
 
+  if (merchantId) {
+    const { data: merchant, error: merchantError } = await supabase
+      .from("merchants")
+      .select("id")
+      .eq("id", merchantId)
+      .eq("is_active", true)
+      .maybeSingle();
+
+    if (merchantError || !merchant) fail("Estabelecimento não encontrado ou inativo.");
+  }
+
+  if (paymentMethodId) {
+    const { data: method, error: methodError } = await supabase
+      .from("payment_methods")
+      .select("id")
+      .eq("id", paymentMethodId)
+      .eq("is_active", true)
+      .maybeSingle();
+
+    if (methodError || !method) fail("Forma de pagamento não encontrada ou inativa.");
+  }
+
   const { error } = await supabase.from("transactions").insert({
     user_id: userId,
     account_id: accountId,
     category_id: categoryId || null,
+    merchant_id: merchantId || null,
+    payment_method_id: paymentMethodId || null,
     kind,
     amount,
     occurred_on: occurredOn,
     description: description || null,
   });
 
+  if (error?.message?.includes("row-level security")) {
+    fail("Esse mês está fechado e não pode receber novos lançamentos.");
+  }
   if (error) fail("Não foi possível registrar a movimentação.");
   success(kind === "income" ? "Receita registrada." : "Despesa registrada.");
 }
@@ -137,12 +167,14 @@ export async function deleteTransaction(formData: FormData) {
 
   if (!id) fail("Movimentação inválida.");
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("transactions")
     .delete()
     .eq("id", id)
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .select("id")
+    .maybeSingle();
 
-  if (error) fail("Não foi possível excluir a movimentação.");
+  if (error || !data) fail("Movimentação não encontrada ou pertencente a um mês fechado.");
   success("Movimentação excluída.");
 }
