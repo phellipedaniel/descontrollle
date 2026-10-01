@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Sidebar } from "@/components/sidebar";
+import { AppShell } from "@/components/layout/app-shell";
+import { PageHeader } from "@/components/layout/page-header";
 import { SubmitButton } from "@/components/submit-button";
 import {
   currentMonthKey,
@@ -348,13 +349,8 @@ export default async function ForecastPage({
   const explicitPlanCount = Object.keys(explicitPlans).length;
 
   return (
-    <main className="app-shell">
-      <Sidebar active="forecast" />
-      <section className="workspace">
-        <header className="topbar">
-          <div><span className="eyebrow">DESCONTROLLLE · MVP 7</span><h1>Projeções</h1></div>
-          <div className="profile-chip"><span className="status-dot" />{auth.user.email}</div>
-        </header>
+    <AppShell active="forecast">
+        <PageHeader title="Projeções" actions={<div className="profile-chip"><span className="status-dot" />{auth.user.email}</div>} />
 
         <section className="hero-card">
           <div>
@@ -610,7 +606,6 @@ export default async function ForecastPage({
             </div>
           </article>
         </section>
-      </section>
-    </main>
+      </AppShell>
   );
 }

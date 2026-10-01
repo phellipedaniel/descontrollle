@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Sidebar } from "@/components/sidebar";
+import { AppShell } from "@/components/layout/app-shell";
+import { PageHeader } from "@/components/layout/page-header";
 import {
   formatBRL,
   monthLabelFromKey,
@@ -127,17 +128,8 @@ export default async function PlanningPage({
   ];
 
   return (
-    <main className="app-shell">
-      <Sidebar active="planning" />
-
-      <section className="workspace">
-        <header className="topbar">
-          <div>
-            <span className="eyebrow">DESCONTROLLLE · MVP 2</span>
-            <h1>Planejamento mensal</h1>
-          </div>
-          <div className="profile-chip"><span className="status-dot" />{email}</div>
-        </header>
+    <AppShell active="planning">
+        <PageHeader title="Planejamento mensal" actions={<div className="profile-chip"><span className="status-dot" />{email}</div>} />
 
         <section className="planning-toolbar">
           <Link className="month-arrow" href={"/planning?month=" + shiftMonthKey(month, -1)} aria-label="Mês anterior">‹</Link>
@@ -338,7 +330,6 @@ export default async function PlanningPage({
             <small>Receitas lançadas − despesas lançadas no diagnóstico.</small>
           </article>
         </section>
-      </section>
-    </main>
+      </AppShell>
   );
 }

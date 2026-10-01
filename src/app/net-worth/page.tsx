@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
-import { Sidebar } from "@/components/sidebar";
+import { AppShell } from "@/components/layout/app-shell";
+import { PageHeader } from "@/components/layout/page-header";
 import { SubmitButton } from "@/components/submit-button";
 import { createClient } from "@/lib/supabase/server";
 import { accountTypeLabel, formatBRL, formatDate, todayInBrazil } from "@/lib/finance";
@@ -108,13 +109,8 @@ export default async function NetWorthPage({
   const scopeDebtRows = debts.filter((debt) => debt.status !== "paid" || Number(debt.current_balance) > 0);
 
   return (
-    <main className="app-shell">
-      <Sidebar active="net-worth" />
-      <section className="workspace">
-        <header className="topbar">
-          <div><span className="eyebrow">DESCONTROLLLE · MVP 6</span><h1>Patrimônio líquido</h1></div>
-          <div className="profile-chip"><span className="status-dot" />{auth.user.email}</div>
-        </header>
+    <AppShell active="net-worth">
+        <PageHeader title="Patrimônio líquido" actions={<div className="profile-chip"><span className="status-dot" />{auth.user.email}</div>} />
 
         <section className="hero-card">
           <div>
@@ -345,7 +341,6 @@ export default async function NetWorthPage({
             </div>
           </article>
         </section>
-      </section>
-    </main>
+      </AppShell>
   );
 }

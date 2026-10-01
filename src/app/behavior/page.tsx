@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Sidebar } from "@/components/sidebar";
+import { AppShell } from "@/components/layout/app-shell";
+import { PageHeader } from "@/components/layout/page-header";
 import { SubmitButton } from "@/components/submit-button";
 import {
   buildBehaviorSignals,
@@ -203,13 +204,8 @@ export default async function BehaviorPage({
   const activeCategories = categories.filter((category) => category.is_active);
 
   return (
-    <main className="app-shell">
-      <Sidebar active="behavior" />
-      <section className="workspace">
-        <header className="topbar">
-          <div><span className="eyebrow">DESCONTROLLLE · MVP 8</span><h1>Comportamento financeiro</h1></div>
-          <div className="profile-chip"><span className="status-dot" />{auth.user.email}</div>
-        </header>
+    <AppShell active="behavior">
+        <PageHeader title="Comportamento financeiro" actions={<div className="profile-chip"><span className="status-dot" />{auth.user.email}</div>} />
 
         <section className="planning-toolbar">
           <Link className="month-arrow" href={"/behavior?month=" + shiftMonthKey(selectedMonth,-1)} aria-label="Mês anterior">‹</Link>
@@ -427,7 +423,6 @@ export default async function BehaviorPage({
           <h3>O que o MVP 8 não conclui sozinho</h3>
           <p>Um aumento de gasto pode ser planejado, necessário ou pontual. Mais dias com transações não significam compulsão. Concentração em um estabelecimento pode ser uma compra grande legítima. Por isso os sinais servem para revisão, e o check-in registra a sua interpretação.</p>
         </section>
-      </section>
-    </main>
+      </AppShell>
   );
 }
