@@ -537,3 +537,35 @@ textarea { font:inherit; }
   .merchant-list > div { flex-direction:column; }
   .merchant-list strong { text-align:left; }
 }
+
+
+/* MVP 9 — Automação */
+.automation-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin-top:18px; }
+.automation-status { display:grid; margin-top:20px; }
+.automation-status > div { display:flex; justify-content:space-between; gap:16px; padding:12px 0; border-bottom:1px solid var(--border); }
+.automation-status span { color:var(--muted); font-size:12px; }
+.automation-action-form { margin-top:20px; display:grid; gap:14px; }
+.automation-action-form p { color:var(--muted); font-size:12px; line-height:1.5; margin:0; }
+.automation-confirm { display:flex; align-items:flex-start; gap:9px; color:var(--muted); font-size:12px; line-height:1.45; }
+.automation-confirm input { width:16px; height:16px; margin-top:1px; accent-color:var(--purple-2); }
+.closed-period-card { display:grid; gap:9px; margin-top:20px; padding:16px; border:1px solid var(--border); border-radius:14px; background:#30283e; }
+.closed-period-card span,.closed-period-card p { color:var(--muted); font-size:12px; line-height:1.5; margin:0; }
+.recurring-grid,.payment-method-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+.recurring-card,.payment-method-card { min-height:0; }
+.recurring-value { display:flex; align-items:baseline; flex-wrap:wrap; gap:8px; margin-top:18px; }
+.recurring-value strong { font-size:28px; }
+.recurring-value span { color:var(--muted); font-size:12px; }
+.recurring-facts { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.recurring-facts span { padding:7px 9px; border-radius:9px; background:#30283e; color:var(--muted); font-size:11px; }
+.version-history { display:grid; margin-top:12px; }
+.version-history > div { display:flex; justify-content:space-between; gap:14px; padding:10px 0; border-bottom:1px solid var(--border); font-size:11px; }
+.version-history > div:last-child { border-bottom:0; }
+.version-history span { color:var(--faint); }
+.automation-pill { font-size:10px; }
+.pill.muted { opacity:.55; }
+@media(max-width:900px) {
+  .automation-grid,.recurring-grid,.payment-method-grid { grid-template-columns:1fr; }
+}
+@media(max-width:640px) {
+  .version-history > div { flex-direction:column; }
+}

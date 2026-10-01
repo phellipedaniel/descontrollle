@@ -68,18 +68,18 @@ export default async function Dashboard() {
       <Sidebar active="dashboard" />
       <section className="workspace">
         <header className="topbar">
-          <div><span className="eyebrow">DESCONTROLLLE · MVP 8</span><h1>Visão geral</h1></div>
+          <div><span className="eyebrow">DESCONTROLLLE · MVP 9</span><h1>Visão geral</h1></div>
           <div className="profile-chip"><span className="status-dot" />{email}</div>
         </header>
 
         <section className="hero-card">
           <div>
             <span className="eyebrow">PLANEJAR · EXECUTAR · REVISAR</span>
-            <h2>O descontrollle agora também mostra como o plano se comporta na prática.</h2>
-            <p>Além de registrar e projetar, você pode revisar padrões mensais, mudanças por categoria e registrar um check-in sem transformar os dados em julgamento.</p>
+            <h2>O descontrollle agora também executa rotinas repetitivas sem reescrever o passado.</h2>
+            <p>Recorrências, formas de pagamento e fechamento mensal entram no mesmo fluxo, com sincronização idempotente e meses fechados imutáveis.</p>
             <div className="hero-actions">
               <Link className="button primary inline-button" href={"/planning?month=" + currentMonthKey()}>Planejar este mês</Link>
-              <Link className="button secondary inline-button" href="/behavior">Revisar comportamento</Link>
+              <Link className="button secondary inline-button" href="/automation">Abrir automações</Link>
             </div>
           </div>
           <div className="hero-status">
@@ -90,7 +90,7 @@ export default async function Dashboard() {
             <span>Gestão de dívidas</span><strong>ativo</strong>
             <span>Patrimônio líquido</span><strong>ativo</strong>
             <span>Motor de planejamento</span><strong>ativo</strong>
-            <span>Comportamento financeiro</span><strong>ativo</strong>
+            <span>Comportamento financeiro</span><strong>ativo</strong>\n            <span>Automação</span><strong>ativo</strong>
           </div>
         </section>
 

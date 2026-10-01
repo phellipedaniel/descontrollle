@@ -2,44 +2,29 @@
 
 Gerenciador de finanças pessoais orientado a planejamento financeiro.
 
-## MVP 0 — Fundação
-- Next.js + Supabase Auth + dashboard
+## Roadmap implementado
 
-## MVP 1 — Diagnóstico Financeiro
-- Contas, categorias, receitas, despesas, saldo e histórico
+- MVP 0 — Fundação
+- MVP 1 — Diagnóstico financeiro
+- MVP 2 — Planejamento mensal
+- MVP 3 — Objetivos financeiros
+- MVP 4 — Segurança financeira
+- MVP 5 — Gestão de dívidas
+- MVP 6 — Patrimônio líquido
+- MVP 7 — Motor de planejamento
+- MVP 8 — Comportamento financeiro
+- MVP 9 — Automação
 
-## MVP 2 — Planejamento Mensal
-- Receita planejada, orçamento e planejado × realizado
+## MVP 9 — Automação
 
-## MVP 3 — Objetivos financeiros
-- Metas, aportes, progresso e prazo
-- [Escopo, cálculos e testes](docs/MVP-3.md)
-
-## MVP 4 — Segurança financeira
-- Reserva de emergência, categorias essenciais e provisões
-- [Escopo, cálculos e testes](docs/MVP-4.md)
-
-## MVP 5 — Gestão de dívidas
-- Dívidas, pagamentos, avalanche e bola de neve
-- [Escopo, cálculos e testes](docs/MVP-5.md)
-
-## MVP 6 — Patrimônio líquido
-- Contas, ativos manuais, dívidas e snapshots patrimoniais
-- [Escopo, cálculos e testes](docs/MVP-6.md)
-
-## MVP 7 — Motor de planejamento
-- Futuro planejado × cenário histórico provável
-- Integração de compromissos e margem futura
-- [Escopo, cálculos e testes](docs/MVP-7.md)
-
-## MVP 8 — Comportamento financeiro
-- Baseline com períodos fechados e reconciliados
-- Tendência mensal e frequência de dias com gasto
-- Movimento por categoria
-- Concentração por estabelecimento condicionada à cobertura dos dados
-- Regras de atenção configuráveis
-- Check-in mensal escrito pelo usuário
-- [Escopo, cálculos e testes](docs/MVP-8.md)
+- Formas de pagamento: cartões, Pix, débito, dinheiro, transferência e outros
+- Gastos recorrentes versionados somente para frente
+- Conta de origem por recorrência
+- Sincronização idempotente de lançamentos automáticos
+- Integração das formas de pagamento à tela de Finanças
+- Fechamento definitivo do mês
+- Reuso das travas de meses fechados em transações e planejamento
+- [Escopo, regras e testes](docs/MVP-9.md)
 
 Rotas principais:
 - `/` — visão geral
@@ -51,11 +36,13 @@ Rotas principais:
 - `/net-worth` — patrimônio líquido
 - `/forecast` — motor de planejamento e projeções
 - `/behavior` — revisão de comportamento financeiro
+- `/automation` — formas de pagamento, recorrências e fechamento
 
 ## Segurança
 - Nenhuma `service_role`/secret key é exposta ao frontend.
 - Tabelas operacionais usam RLS por `auth.uid()`.
-- `anon` não recebe acesso às tabelas financeiras.
+- Funções de automação públicas usam `SECURITY INVOKER`.
+- `anon` não recebe acesso aos dados financeiros.
 
 ## Importação histórica
 Veja [as regras de importação e isolamento por usuário](docs/HISTORICAL-IMPORT.md).
