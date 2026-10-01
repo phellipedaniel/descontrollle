@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function ErrorPage({ reset }: { reset: () => void }) {
   return (
-    <main className="app-shell">
+    <main className="ds-error-shell">
       <section className="workspace">
         <article className="panel finance-panel" role="alert">
           <h1>Não foi possível carregar seus dados</h1>

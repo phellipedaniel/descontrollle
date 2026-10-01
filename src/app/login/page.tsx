@@ -9,7 +9,7 @@ export default async function LoginPage({
 
   return (
     <main className="auth-shell">
-      <section className="auth-brand">
+      <section className="auth-brand ds-inverse">
         <div className="brand-mark">d</div>
         <div>
           <span className="eyebrow">PLANEJAMENTO FINANCEIRO</span>
@@ -24,9 +24,9 @@ export default async function LoginPage({
       </section>
 
       <section className="auth-card">
-        <span className="eyebrow">MVP 0 · FUNDAÇÃO</span>
+        <span className="eyebrow">SEU ESPAÇO FINANCEIRO</span>
         <h2>Entre na sua conta</h2>
-        <p className="muted">A autenticação é protegida pelo Supabase Auth.</p>
+        <p className="muted">Acesse seus lançamentos, planos e objetivos em um só lugar.</p>
 
         {params.error && <div className="alert error">{params.error === "confirmacao" ? "Não foi possível confirmar o e-mail." : params.error}</div>}
         {params.message && <div className="alert success">{params.message}</div>}
