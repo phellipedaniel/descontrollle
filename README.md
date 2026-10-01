@@ -20,12 +20,16 @@ Gerenciador de finanças pessoais orientado a planejamento financeiro.
 - [Escopo, cálculos e testes](docs/MVP-4.md)
 
 ## MVP 5 — Gestão de dívidas
-- Cadastro de dívidas e saldo atual
-- Juros anuais e pagamento mínimo
-- Estratégias avalanche e bola de neve
-- Histórico de pagamentos com novo saldo informado
-- Pagamento de dívida separado das transações para evitar dupla contagem
+- Dívidas, pagamentos, avalanche e bola de neve
 - [Escopo, cálculos e testes](docs/MVP-5.md)
+
+## MVP 6 — Patrimônio líquido
+- Contas incluídas pelo saldo calculado
+- Ativos manuais com histórico de avaliações
+- Dívidas incluídas como passivos
+- Snapshots patrimoniais
+- Proteção contra dupla contagem de reserva, metas e provisões
+- [Escopo, cálculos e testes](docs/MVP-6.md)
 
 Rotas principais:
 - `/` — visão geral
@@ -34,6 +38,7 @@ Rotas principais:
 - `/goals` — objetivos financeiros
 - `/resilience` — segurança financeira
 - `/debts` — gestão de dívidas
+- `/net-worth` — patrimônio líquido
 
 ## Segurança
 - Nenhuma `service_role`/secret key é exposta ao frontend.
