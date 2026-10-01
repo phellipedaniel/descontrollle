@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Sidebar } from "@/components/sidebar";
+import { AppShell } from "@/components/layout/app-shell";
+import { PageHeader } from "@/components/layout/page-header";
 import { paymentMethodLabel, type PaymentMethod } from "@/lib/automation";
 import {
   accountTypeLabel,
@@ -103,17 +104,8 @@ export default async function FinancePage({
   ];
 
   return (
-    <main className="app-shell">
-      <Sidebar active="finance" />
-
-      <section className="workspace">
-        <header className="topbar">
-          <div>
-            <span className="eyebrow">DESCONTROLLLE · MVP 9</span>
-            <h1>Diagnóstico financeiro</h1>
-          </div>
-          <div className="profile-chip"><span className="status-dot" />{email}</div>
-        </header>
+    <AppShell active="finance">
+        <PageHeader title="Diagnóstico financeiro" actions={<div className="profile-chip"><span className="status-dot" />{email}</div>} />
 
         <section className="hero-card">
           <div>
@@ -350,7 +342,6 @@ export default async function FinancePage({
             })}
           </div>
         </article>
-      </section>
-    </main>
+      </AppShell>
   );
 }

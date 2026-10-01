@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Sidebar } from "@/components/sidebar";
+import { AppShell } from "@/components/layout/app-shell";
+import { PageHeader } from "@/components/layout/page-header";
 import { SubmitButton } from "@/components/submit-button";
 import {
   latestVersionForMonth,
@@ -113,13 +114,8 @@ export default async function AutomationPage({
   const generatedCount=(generatedData??[]).length;
 
   return (
-    <main className="app-shell">
-      <Sidebar active="automation" />
-      <section className="workspace">
-        <header className="topbar">
-          <div><span className="eyebrow">DESCONTROLLLE · MVP 9</span><h1>Central de Automação</h1></div>
-          <div className="profile-chip"><span className="status-dot" />{auth.user.email}</div>
-        </header>
+    <AppShell active="automation">
+        <PageHeader title="Central de Automação" actions={<div className="profile-chip"><span className="status-dot" />{auth.user.email}</div>} />
 
         <section className="planning-toolbar">
           <Link className="month-arrow" href={"/automation?month="+shiftMonthKey(selectedMonth,-1)} aria-label="Mês anterior">‹</Link>
@@ -326,7 +322,6 @@ export default async function AutomationPage({
             ))}
           </div>
         </section>
-      </section>
-    </main>
+      </AppShell>
   );
 }

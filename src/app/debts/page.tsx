@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
-import { Sidebar } from "@/components/sidebar";
+import { AppShell } from "@/components/layout/app-shell";
+import { PageHeader } from "@/components/layout/page-header";
 import { SubmitButton } from "@/components/submit-button";
 import { createClient } from "@/lib/supabase/server";
 import { formatBRL, formatDate, todayInBrazil } from "@/lib/finance";
@@ -78,13 +79,8 @@ export default async function DebtsPage({
   const debtById = new Map(debts.map((debt) => [debt.id,debt]));
 
   return (
-    <main className="app-shell">
-      <Sidebar active="debts" />
-      <section className="workspace">
-        <header className="topbar">
-          <div><span className="eyebrow">DESCONTROLLLE · MVP 5</span><h1>Dívidas</h1></div>
-          <div className="profile-chip"><span className="status-dot" />{auth.user.email}</div>
-        </header>
+    <AppShell active="debts">
+        <PageHeader title="Dívidas" actions={<div className="profile-chip"><span className="status-dot" />{auth.user.email}</div>} />
 
         <section className="hero-card">
           <div>
@@ -292,7 +288,6 @@ export default async function DebtsPage({
             </div>
           </article>
         </section>
-      </section>
-    </main>
+      </AppShell>
   );
 }

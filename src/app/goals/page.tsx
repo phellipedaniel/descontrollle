@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { randomUUID } from "node:crypto";
 import { redirect } from "next/navigation";
-import { Sidebar } from "@/components/sidebar";
+import { AppShell } from "@/components/layout/app-shell";
+import { PageHeader } from "@/components/layout/page-header";
 import { SubmitButton } from "@/components/submit-button";
 import { createClient } from "@/lib/supabase/server";
 import { currentMonthKey, formatBRL, formatDate, todayInBrazil } from "@/lib/finance";
@@ -47,10 +48,8 @@ export default async function GoalsPage({ searchParams }: { searchParams: Promis
   const showArchived = params.view === "archived";
   const visible = goals.filter((g) => g.status === (showArchived ? "archived" : "active"));
   const goalById = new Map(goals.map((g) => [g.id, g]));
-  return <main className="app-shell">
-    <Sidebar active="goals" />
-    <section className="workspace">
-      <header className="topbar"><div><span className="eyebrow">DESCONTROLLLE · MVP 3</span><h1>Objetivos financeiros</h1></div><div className="profile-chip"><span className="status-dot" />{auth.user.email}</div></header>
+  return <AppShell active="goals">
+      <PageHeader title="Objetivos financeiros" actions={<div className="profile-chip"><span className="status-dot" />{auth.user.email}</div>} />
       <section className="hero-card">
         <div><span className="eyebrow">SEU PRÓXIMO PASSO</span><h2>Dê um destino ao dinheiro que você reserva.</h2><p>Defina uma meta, acompanhe seus aportes e veja quanto precisa reservar por mês até o prazo.</p></div>
         <div className="hero-status"><span>Objetivos ativos</span><strong>{active.length}</strong><span>Metas alcançadas</span><strong>{active.filter((g) => metrics.get(g.id)!.complete).length}</strong><span>Prazo vencido</span><strong>{overdue}</strong></div>
@@ -95,6 +94,5 @@ export default async function GoalsPage({ searchParams }: { searchParams: Promis
           {(history ?? []).map((entry) => <div className="data-row transaction-row" key={entry.id}><div><strong>{goalById.get(entry.goal_id)?.name ?? "Objetivo"}</strong><span>{formatDate(entry.occurred_on)}{entry.note ? " · " + entry.note : ""}</span></div><div className="transaction-actions"><strong className="text-positive">{formatBRL(entry.amount)}</strong>{goalById.get(entry.goal_id)?.status === "active" && <details className="goal-remove"><summary>Corrigir</summary><p>Remover este aporte do histórico e recalcular o valor reservado?</p><form action={removeContribution}><input type="hidden" name="id" value={entry.id} /><SubmitButton className="button negative">Confirmar remoção</SubmitButton></form></details>}</div></div>)}
         </div>
       </article>
-    </section>
-  </main>;
+    </AppShell>;
 }

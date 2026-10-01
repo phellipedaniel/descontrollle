@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
-import { Sidebar } from "@/components/sidebar";
+import { AppShell } from "@/components/layout/app-shell";
+import { PageHeader } from "@/components/layout/page-header";
 import { SubmitButton } from "@/components/submit-button";
 import { createClient } from "@/lib/supabase/server";
 import { currentMonthKey, formatBRL } from "@/lib/finance";
@@ -158,16 +159,8 @@ export default async function ResiliencePage({
           : "ainda não há meses fechados e reconciliados";
 
   return (
-    <main className="app-shell">
-      <Sidebar active="resilience" />
-      <section className="workspace">
-        <header className="topbar">
-          <div>
-            <span className="eyebrow">DESCONTROLLLE · MVP 4</span>
-            <h1>Segurança financeira</h1>
-          </div>
-          <div className="profile-chip"><span className="status-dot" />{auth.user.email}</div>
-        </header>
+    <AppShell active="resilience">
+        <PageHeader title="Segurança financeira" actions={<div className="profile-chip"><span className="status-dot" />{auth.user.email}</div>} />
 
         <section className="hero-card">
           <div>
@@ -390,7 +383,6 @@ export default async function ResiliencePage({
             })}
           </div>
         </section>
-      </section>
-    </main>
+      </AppShell>
   );
 }
