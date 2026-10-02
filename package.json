@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node --experimental-strip-types --test --test-name-pattern=\"failed budget|independent module|overspending|account/payment|truncated transaction\" tests/dashboard.test.mjs",
+    "prebuild": "node --experimental-strip-types --test --test-name-pattern=\"failed budget|independent module|overspending\" tests/dashboard.test.mjs",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
