@@ -143,9 +143,15 @@ export default async function Dashboard({
     kindFilter === "income" || (kindFilter === "all" && selectedCategory?.kind === "income")
       ? "income"
       : "expense";
-  const categoryNames = new Map(categories.map(item => [item.id,item.name]));
-  const accountNames = new Map(accounts.map(item => [item.id,item.name]));
-  const paymentMethodMap = new Map(paymentMethods.map(item => [item.id,item]));
+  const categoryNames = new Map<string,string>(
+    categories.map(item => [item.id,item.name] as const),
+  );
+  const accountNames = new Map<string,string>(
+    accounts.map(item => [item.id,item.name] as const),
+  );
+  const paymentMethodMap = new Map<string,PaymentMethod>(
+    paymentMethods.map(item => [item.id,item] as const),
+  );
 
   const activeFilterLabels: string[] = [];
   if (categoryId) activeFilterLabels.push(categoryNames.get(categoryId) ?? "Categoria selecionada");
