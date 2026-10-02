@@ -1,65 +1,72 @@
 :root {
-  color-scheme: dark;
-  /* Linear-inspired dark canvas */
-  --ds-bg: #010102;
-  --ds-surface-1: #0f1011;
-  --ds-surface-2: #141516;
-  --ds-surface-hover: #18191a;
-  --ds-border-subtle: #23252a;
-  --ds-border-control: #34343a;
-  --ds-text-primary: #f7f8f8;
-  --ds-text-secondary: #d0d6e0;
-  --ds-text-muted: #8a8f98;
-  /* Lavender accent */
-  --ds-accent: #5e6ad2;
-  --ds-accent-hover: #828fff;
-  --ds-accent-active: #5e69d1;
-  --ds-on-accent: #ffffff;
-  --ds-accent-subtle: #1a1a2e;
-  /* Semantic — tuned for dark backgrounds */
-  --ds-success: #27a644;
-  --ds-success-subtle: #0d2614;
-  --ds-danger: #e5534b;
-  --ds-danger-subtle: #2d1517;
-  --ds-warning: #d4a72c;
-  --ds-warning-subtle: #2a2210;
-  --ds-info: #58a6ff;
-  --ds-info-subtle: #0d1b2a;
-  --ds-focus: #5e6ad2;
-  --ds-overlay: rgb(0 0 0 / 72%);
-  /* Chart palette — vibrant on dark */
-  --ds-chart-1: #8b8ff0;
-  --ds-chart-2: #4ade80;
-  --ds-chart-3: #f59e0b;
-  --ds-chart-4: #f472b6;
-  --ds-chart-5: #38bdf8;
-  --ds-chart-6: #a78bfa;
+  color-scheme: light;
+  
+  /* Core Palette — Light Theme (Warm/Coral) */
+  --ds-bg: #faf9f5;
+  --ds-surface-1: #f5f0e8;
+  --ds-surface-2: #efe9de;
+  --ds-surface-hover: #e8e0d2;
+  --ds-border-subtle: #ded7cd;
+  --ds-border-control: #82766b;
+  --ds-text-primary: #141413;
+  --ds-text-secondary: #3d3d3a;
+  --ds-text-muted: #625f58;
+  
+  /* Accent */
+  --ds-accent: #994c34;
+  --ds-accent-hover: #93452e;
+  --ds-accent-active: #803c28;
+  --ds-on-accent: #faf9f5;
+  --ds-accent-subtle: #f2e0d7;
+  
+  /* Semantic */
+  --ds-success: #27634d;
+  --ds-success-subtle: #e0eee7;
+  --ds-danger: #a13232;
+  --ds-danger-subtle: #fae9e5;
+  --ds-warning: #775500;
+  --ds-warning-subtle: #f6edce;
+  --ds-info: #315e79;
+  --ds-info-subtle: #e5eef2;
+  --ds-focus: #93452e;
+  --ds-overlay: rgb(0 0 0 / 64%);
+  
+  /* Charts */
+  --ds-chart-1: #b7664c;
+  --ds-chart-2: #357f70;
+  --ds-chart-3: #94621e;
+  --ds-chart-4: #a45576;
+  --ds-chart-5: #426b83;
+  --ds-chart-6: #72685f;
+  
+  /* Brand */
+  --ds-brand-lavender: #cc785c; /* kept name for compatibility but value is coral in light theme */
+  
+  /* Ink Palette (for inverse components in light mode) */
+  --ds-ink: #181715;
+  --ds-ink-elevated: #252320;
+  --ds-ink-hover: #35312d;
+  --ds-on-ink: #faf9f5;
+  --ds-on-ink-secondary: #d7d0c7;
+  --ds-on-ink-muted: #b8b0a5;
+  --ds-ink-border: #514b44;
+  --ds-ink-border-control: #a69b8e;
+  --ds-ink-accent: #e4a48b;
+  --ds-ink-accent-subtle: #3d2b24;
+  --ds-ink-success: #91c7a8;
+  --ds-ink-success-subtle: #23372d;
+  --ds-ink-danger: #edb0a7;
+  --ds-ink-danger-subtle: #412824;
+  --ds-ink-warning: #e4c182;
+  --ds-ink-warning-subtle: #3a3020;
+  --ds-ink-info: #abcbd9;
+  --ds-ink-info-subtle: #24333b;
+  --ds-ink-chart-1: #e4a48b;
+  --ds-ink-chart-2: #7db9a5;
 
-  --ds-font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Typography */
+  --ds-font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --ds-font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --ds-brand-lavender: #5e6ad2;
-  /* Ink overrides (legacy compat — now same as base) */
-  --ds-ink: #0f1011;
-  --ds-ink-elevated: #141516;
-  --ds-ink-hover: #18191a;
-  --ds-on-ink: #f7f8f8;
-  --ds-on-ink-secondary: #d0d6e0;
-  --ds-on-ink-muted: #8a8f98;
-  --ds-ink-border: #23252a;
-  --ds-ink-border-control: #34343a;
-  --ds-ink-accent: #828fff;
-  --ds-ink-accent-subtle: #1a1a2e;
-  --ds-ink-success: #4ade80;
-  --ds-ink-success-subtle: #0d2614;
-  --ds-ink-danger: #f87171;
-  --ds-ink-danger-subtle: #2d1517;
-  --ds-ink-warning: #fbbf24;
-  --ds-ink-warning-subtle: #2a2210;
-  --ds-ink-info: #7dd3fc;
-  --ds-ink-info-subtle: #0d1b2a;
-  --ds-ink-chart-1: #8b8ff0;
-  --ds-ink-chart-2: #4ade80;
   --ds-weight-regular: 400;
   --ds-weight-medium: 500;
   --ds-weight-semibold: 600;
@@ -85,6 +92,7 @@
   --ds-tracking-body: -0.003em;
   --ds-tracking-eyebrow: 0.025em;
 
+  /* Spacing */
   --ds-space-0: 0;
   --ds-space-1: 0.25rem;
   --ds-space-2: 0.5rem;
@@ -96,6 +104,8 @@
   --ds-space-8: 2.5rem;
   --ds-space-9: 3rem;
   --ds-space-10: 4rem;
+
+  /* Radii & Borders */
   --ds-radius-badge: 0.375rem;
   --ds-radius-control: 0.5rem;
   --ds-radius-panel: 0.75rem;
@@ -104,9 +114,12 @@
   --ds-border-width: 1px;
   --ds-focus-width: 2px;
   --ds-focus-offset: 3px;
-  --ds-shadow-popover: 0 8px 24px rgb(0 0 0 / 48%);
-  --ds-shadow-modal: 0 24px 64px rgb(0 0 0 / 64%);
 
+  /* Shadows */
+  --ds-shadow-popover: 0 8px 24px rgb(0 0 0 / 32%);
+  --ds-shadow-modal: 0 24px 64px rgb(0 0 0 / 48%);
+
+  /* Layout */
   --ds-content-max: 1440px;
   --ds-sidebar-expanded: 240px;
   --ds-sidebar-collapsed: 72px;
@@ -126,6 +139,7 @@
   --ds-dialog-width-wide: 640px;
   --ds-drawer-width: 320px;
 
+  /* Z-index & Motion */
   --ds-z-base: 0;
   --ds-z-sticky: 10;
   --ds-z-dropdown: 20;
@@ -136,6 +150,78 @@
   --ds-motion-standard: 180ms;
   --ds-motion-layer: 240ms;
   --ds-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    /* Core Palette — Dark Theme (Linear-inspired) */
+    --ds-bg: #010102;
+    --ds-surface-1: #0f1011;
+    --ds-surface-2: #141516;
+    --ds-surface-hover: #18191a;
+    --ds-border-subtle: #23252a;
+    --ds-border-control: #34343a;
+    --ds-text-primary: #f7f8f8;
+    --ds-text-secondary: #d0d6e0;
+    --ds-text-muted: #8a8f98;
+    
+    /* Accent */
+    --ds-accent: #5e6ad2;
+    --ds-accent-hover: #828fff;
+    --ds-accent-active: #5e69d1;
+    --ds-on-accent: #ffffff;
+    --ds-accent-subtle: #1a1a2e;
+    
+    /* Semantic */
+    --ds-success: #27a644;
+    --ds-success-subtle: #0d2614;
+    --ds-danger: #e5534b;
+    --ds-danger-subtle: #2d1517;
+    --ds-warning: #d4a72c;
+    --ds-warning-subtle: #2a2210;
+    --ds-info: #58a6ff;
+    --ds-info-subtle: #0d1b2a;
+    --ds-focus: #5e6ad2;
+    --ds-overlay: rgb(0 0 0 / 72%);
+    
+    /* Charts */
+    --ds-chart-1: #8b8ff0;
+    --ds-chart-2: #4ade80;
+    --ds-chart-3: #f59e0b;
+    --ds-chart-4: #f472b6;
+    --ds-chart-5: #38bdf8;
+    --ds-chart-6: #a78bfa;
+    
+    /* Brand */
+    --ds-brand-lavender: #5e6ad2;
+    
+    /* Ink Overrides (in dark mode, ink matches base dark) */
+    --ds-ink: #0f1011;
+    --ds-ink-elevated: #141516;
+    --ds-ink-hover: #18191a;
+    --ds-on-ink: #f7f8f8;
+    --ds-on-ink-secondary: #d0d6e0;
+    --ds-on-ink-muted: #8a8f98;
+    --ds-ink-border: #23252a;
+    --ds-ink-border-control: #34343a;
+    --ds-ink-accent: #828fff;
+    --ds-ink-accent-subtle: #1a1a2e;
+    --ds-ink-success: #4ade80;
+    --ds-ink-success-subtle: #0d2614;
+    --ds-ink-danger: #f87171;
+    --ds-ink-danger-subtle: #2d1517;
+    --ds-ink-warning: #fbbf24;
+    --ds-ink-warning-subtle: #2a2210;
+    --ds-ink-info: #7dd3fc;
+    --ds-ink-info-subtle: #0d1b2a;
+    --ds-ink-chart-1: #8b8ff0;
+    --ds-ink-chart-2: #4ade80;
+
+    /* Dark Shadows */
+    --ds-shadow-popover: 0 8px 24px rgb(0 0 0 / 48%);
+    --ds-shadow-modal: 0 24px 64px rgb(0 0 0 / 64%);
+  }
 }
 :root {
  --bg:var(--ds-bg); --surface:var(--ds-surface-1); --surface-2:var(--ds-surface-2); --surface-3:var(--ds-bg);
@@ -827,14 +913,36 @@ body:has(.ds-drawer[open]) { overflow:hidden; }
 .ds-workspace input:focus-visible,.ds-workspace select:focus-visible,.ds-workspace textarea:focus-visible { outline:var(--ds-focus-width) solid var(--ds-focus); outline-offset:var(--ds-focus-offset); }
 .icon-button { width:var(--ds-touch-target); height:var(--ds-touch-target); background:var(--ds-surface-2); border-color:var(--ds-border-control); color:var(--ds-text-secondary); }
 .ds-nav-tooltip { position:fixed; z-index:var(--ds-z-toast); padding:var(--ds-space-3); background:var(--ds-surface-2); color:var(--ds-text-primary); border:var(--ds-border-width) solid var(--ds-border-control); border-radius:var(--ds-radius-control); box-shadow:var(--ds-shadow-popover); }
-/* Dark-first: ds-inverse provides a subtle elevated surface. */
+/* ds-inverse provides a dark elevated surface in both light and dark modes */
 .ds-inverse {
+ --ds-bg:var(--ds-ink);
  --ds-surface-1:var(--ds-ink-elevated);
  --ds-surface-2:var(--ds-ink-hover);
- --ds-surface-hover:#1e1f20;
+ --ds-surface-hover:var(--ds-ink-hover);
  --ds-border-subtle:var(--ds-ink-border);
+ --ds-border-control:var(--ds-ink-border-control);
+ --ds-text-primary:var(--ds-on-ink);
+ --ds-text-secondary:var(--ds-on-ink-secondary);
+ --ds-text-muted:var(--ds-on-ink-muted);
+ --ds-accent:var(--ds-ink-accent);
+ --ds-accent-hover:var(--ds-ink-accent);
+ --ds-accent-active:var(--ds-ink-accent);
+ --ds-on-accent:var(--ds-ink);
+ --ds-accent-subtle:var(--ds-ink-accent-subtle);
+ --ds-success:var(--ds-ink-success);
+ --ds-success-subtle:var(--ds-ink-success-subtle);
+ --ds-danger:var(--ds-ink-danger);
+ --ds-danger-subtle:var(--ds-ink-danger-subtle);
+ --ds-warning:var(--ds-ink-warning);
+ --ds-warning-subtle:var(--ds-ink-warning-subtle);
+ --ds-info:var(--ds-ink-info);
+ --ds-info-subtle:var(--ds-ink-info-subtle);
+ --ds-chart-1:var(--ds-ink-chart-1);
+ --ds-chart-2:var(--ds-ink-chart-2);
+ --ds-focus:var(--ds-ink-accent);
  --surface:var(--ds-surface-1); --surface-2:var(--ds-surface-2); --surface-3:var(--ds-bg);
  --border:var(--ds-border-subtle);
+ --text:var(--ds-text-primary); --muted:var(--ds-text-secondary); --faint:var(--ds-text-muted);
  background:var(--ds-surface-1); color:var(--ds-text-primary);
 }
 h1,h2,.ds-page-header h1,.ds-section-header h2,.hero-card h2,.auth-brand h1,.auth-card h2 {
