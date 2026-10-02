@@ -18,4 +18,4 @@ Meses sem registros são lacunas; zero só ocorre em mês com registros e nenhum
 Tabelas equivalentes acessíveis; pontos com valores por teclado e tooltip nativo; linha contínua/tracejada e barras preenchidas/contornadas além de cor; unidades e fonte explícitas; gráficos roláveis em tela estreita. Sem animação de números ou biblioteca externa. Só agregados são enviados ao componente interativo, não descrições nem registros individuais.
 
 ## Entrega
-Branch nova e PR para revisão; sem merge automático. Validar testes de agregação/paginação, regressão financeira, tipos, build e preview autenticado. A configuração Supabase de preview existente era exclusiva da branch anterior: esta branch requer configuração própria ou ambiente separado.
+Branch nova e PR para revisão; sem merge automático. Validar testes de agregação/paginação, regressão financeira, tipos, build e preview autenticado. Com autorização do usuário, as configurações públicas do Supabase foram adicionadas exclusivamente à branch desta sprint. O preview consulta o banco atual com login e RLS. Tema claro/escuro da main integrado à branch.
