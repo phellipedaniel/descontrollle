@@ -159,5 +159,5 @@ test('truncated transaction sources never render a partial monthly total as comp
   assert.match(html,/Consulta parcial: o total do recorte não é confiável/);
   assert.match(html,/consulta do recorte está incompleta/);
   assert.match(html,/verificação está incompleta/);
-  assert.doesNotMatch(html,/Resultado[^]*100,00/);
+  assert.match(html,/Resultado<\/h2><p[^>]*>Consulta parcial/);
 });
