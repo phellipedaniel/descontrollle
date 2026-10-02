@@ -1,21 +1,14 @@
 import type { Metadata } from "next";
 import { connection } from "next/server";
-import { Roboto, Poppins } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const roboto = Roboto({
+const inter = Inter({
   subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600"],
-  variable: "--font-roboto",
+  variable: "--font-inter",
   display: "swap",
-  fallback: ["Arial", "sans-serif"],
-});
-const poppins = Poppins({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600"],
-  variable: "--font-poppins",
-  display: "swap",
-  fallback: ["Arial", "sans-serif"],
+  fallback: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
 });
 
 export const metadata: Metadata = {
@@ -25,7 +18,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" className={`${roboto.variable} ${poppins.variable}`}>
+    <html lang="pt-BR" className={inter.variable}>
       <body>{children}</body>
     </html>
   );
