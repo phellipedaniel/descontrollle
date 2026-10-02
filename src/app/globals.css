@@ -950,3 +950,43 @@ h3 { font-family:var(--ds-font-sans); }
 .ds-privacy-sections { display:grid; gap:var(--ds-space-6); }
 .ds-privacy p { line-height:1.6; overflow-wrap:anywhere; }
 .ds-privacy h2 { margin-top:0; }
+
+/* Overview: chronology, equivalent periods, category explanation. */
+.overview-charts { margin:var(--ds-space-7) 0; min-width:0; }
+.overview-story-heading { margin-bottom:var(--ds-space-5); max-width:85ch; }
+.overview-story-heading h2 { margin:var(--ds-space-2) 0; }
+.overview-eyebrow { color:var(--ds-text-muted); font-size:var(--ds-text-caption); }
+.overview-chart-grid { display:grid; grid-template-columns:minmax(0,1fr); gap:var(--ds-space-6); }
+.overview-chart-grid .ds-panel { grid-column:auto; }
+.overview-chart-grid h3 { margin-top:0; font-family:var(--ds-font-display); font-size:var(--ds-text-h2); line-height:var(--ds-leading-h2); }
+.overview-chart-grid p,.overview-method { color:var(--ds-text-secondary); }
+.overview-plot { overflow-x:auto; }
+.overview-plot svg { display:block; width:100%; min-width:560px; height:auto; }
+.overview-axis { fill:var(--ds-text-secondary); font-size:12px; font-family:var(--ds-font-sans); }
+.overview-gridline { stroke:var(--ds-border-subtle); stroke-width:1; }
+.overview-series line { stroke-width:2.5; }
+.overview-series.primary { stroke:var(--ds-chart-5); fill:var(--ds-chart-5); }
+.overview-series.reference { stroke:var(--ds-chart-3); fill:var(--ds-surface-1); }
+.overview-series circle:focus-visible { outline:var(--ds-focus-width) solid var(--ds-focus); outline-offset:var(--ds-focus-offset); }
+.overview-legend { display:flex; gap:var(--ds-space-5); flex-wrap:wrap; margin:var(--ds-space-4) 0; color:var(--ds-text-secondary); }
+.overview-legend span::before { content:""; display:inline-block; width:24px; margin-right:var(--ds-space-2); vertical-align:middle; border-top:3px solid var(--ds-chart-5); }
+.overview-legend .reference::before { border-color:var(--ds-chart-3); border-top-style:dashed; }
+.overview-controls { display:flex; gap:var(--ds-space-2); flex-wrap:wrap; }
+.overview-controls button { background:var(--ds-surface-2); border:1px solid var(--ds-border-control); color:var(--ds-text-secondary); min-height:var(--ds-touch-target); }
+.overview-controls button[aria-pressed=true] { border-color:var(--ds-chart-5); color:var(--ds-text-primary); }
+.overview-callout { padding:var(--ds-space-4) 0; border-bottom:1px solid var(--ds-border-subtle); font-variant-numeric:tabular-nums; }
+.overview-callout strong { color:var(--ds-text-primary); font-weight:var(--ds-weight-medium); font-size:var(--ds-text-h2); }
+.overview-callout span { display:block; margin-top:var(--ds-space-2); }
+.overview-category-bars { display:grid; gap:var(--ds-space-5); margin:var(--ds-space-5) 0; }
+.overview-category-bars strong { overflow-wrap:anywhere; }
+.overview-bar-row { display:grid; grid-template-columns:4ch minmax(0,1fr) max-content; gap:var(--ds-space-2); align-items:center; margin-top:var(--ds-space-2); font-size:var(--ds-text-caption); font-variant-numeric:tabular-nums; }
+.overview-bar-track { height:12px; }
+.overview-bar-track > span { display:block; height:100%; background:var(--ds-chart-5); }
+.overview-bar-track > .reference { background:transparent; border:2px solid var(--ds-chart-3); }
+.overview-data { border-top:1px solid var(--ds-border-subtle); padding-top:var(--ds-space-4); margin-top:var(--ds-space-4); }
+.overview-data summary { cursor:pointer; min-height:var(--ds-touch-target); color:var(--ds-text-secondary); }
+.overview-data summary:focus-visible { outline:var(--ds-focus-width) solid var(--ds-focus); outline-offset:var(--ds-focus-offset); }
+.overview-method { font-size:var(--ds-text-caption); margin-top:var(--ds-space-4); }
+@media(min-width:1280px) { .overview-chart-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .overview-chart-grid .overview-full { grid-column:1/-1; } }
+@media(max-width:639px) { .overview-bar-row { grid-template-columns:4ch minmax(0,1fr); } .overview-bar-row > span:last-child { grid-column:2; } }
+@media(forced-colors:active) { .overview-series { stroke:CanvasText!important; fill:CanvasText!important; } .overview-bar-track > span { background:Highlight; } .overview-bar-track > .reference { border-color:CanvasText; } }

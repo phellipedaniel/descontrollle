@@ -1,3 +1,5 @@
+import { OverviewCharts } from "@/components/dashboard/overview-charts";
+import { buildOverviewStory, loadOverviewHistory, type HistoryClient, type OverviewStory } from "@/lib/overview-charts";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { AppShell } from "@/components/layout/app-shell";
@@ -29,6 +31,16 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
     supabase.from("debts").select("id,name,current_balance,minimum_payment,annual_interest_rate,status").eq("status", "active"),
     supabase.from("transactions").select("id,kind,amount,description,occurred_on").gte("occurred_on", start).lt("occurred_on", end).order("occurred_on", { ascending: false }).order("created_at", { ascending: false }).order("id").limit(5),
   ]);
+  let overviewStory: OverviewStory | null = null;
+  try {
+    const year = Number(month.slice(0,4));
+    const [history, categoryResult] = await Promise.all([
+      loadOverviewHistory(supabase as unknown as HistoryClient, auth.user.id, year),
+      supabase.from("categories").select("id,name", { count: "exact" }).eq("user_id", auth.user.id),
+    ]);
+    if (categoryResult.error || !categoryResult.data || categoryResult.count !== categoryResult.data.length) throw new Error("Incomplete categories");
+    overviewStory = buildOverviewStory(history, categoryResult.data, month, todayInBrazil());
+  } catch { /* Keep failures distinct from a confirmed empty history. */ }
   const transactions = transactionsResult.data ?? [];
   const transactionsIncomplete = transactionsResult.count !== null && transactionsResult.count !== undefined && transactionsResult.count > transactions.length;
   const transactionsUnavailable = Boolean(transactionsResult.error || transactionsIncomplete);
@@ -65,6 +77,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
       <MetricCard label="Despesas" state={actualState(actualExpense, `${label} · realizado`)} detailsHref="/finance"/>
       <MetricCard label="Saldo previsto" state={plannedState} detailsHref={`/planning?month=${month}`}/>
     </section>
+    <OverviewCharts story={overviewStory} unavailable={!overviewStory}/>
     <div className="ds-dashboard-grid">
       <section className="ds-panel wide ds-inverse"><SectionHeader title="Fluxo financeiro" description={`${label} · valores em reais`} action={<Link href="/finance">Ver Finanças</Link>}/>
         {transactionsUnavailable ? <EmptyState title={transactionsIncomplete ? "Fluxo indisponível: a consulta não cobre todos os lançamentos do mês." : "Não foi possível carregar o fluxo."}/> : !hasActivity ? <EmptyState title="Nenhum lançamento ou plano neste mês."/> : <>
