@@ -19,3 +19,6 @@ Tabelas equivalentes acessíveis; pontos com valores por teclado e tooltip nativ
 
 ## Entrega
 Branch nova e PR para revisão; sem merge automático. Validar testes de agregação/paginação, regressão financeira, tipos, build e preview autenticado. Com autorização do usuário, as configurações públicas do Supabase foram adicionadas exclusivamente à branch desta sprint. O preview consulta o banco atual com login e RLS. Tema claro/escuro da main integrado à branch.
+
+## Validação do preview
+Deploy e sessão autenticada verificados. Dois gráficos SVG carregados; alternância de receitas/despesas e abertura das tabelas conferidas. Testes em 390 e 320 px confirmaram ausência de overflow da página; gráficos usam rolagem interna. Estado inicial e viewport restaurados. Valores financeiros não foram registrados nas evidências textuais. Revisar classificações em Finanças é a ação sugerida após a leitura por categoria. Nenhuma escrita no banco.

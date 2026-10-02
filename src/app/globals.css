@@ -1098,3 +1098,6 @@ h3 { font-family:var(--ds-font-sans); }
 @media(min-width:1280px) { .overview-chart-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .overview-chart-grid .overview-full { grid-column:1/-1; } }
 @media(max-width:639px) { .overview-bar-row { grid-template-columns:4ch minmax(0,1fr); } .overview-bar-row > span:last-child { grid-column:2; } }
 @media(forced-colors:active) { .overview-series { stroke:CanvasText!important; fill:CanvasText!important; } .overview-bar-track > span { background:Highlight; } .overview-bar-track > .reference { border-color:CanvasText; } }
+
+.overview-bar-track > .reference.empty { border:0; }
+.overview-plot:focus-visible { outline:var(--ds-focus-width) solid var(--ds-focus); outline-offset:var(--ds-focus-offset); }
