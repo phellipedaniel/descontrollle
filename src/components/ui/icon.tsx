@@ -11,5 +11,7 @@ const paths: Record<string, string> = {
   automation: "M20 8a8 8 0 0 0-14-3L3 8 M3 3v5h5 M4 16a8 8 0 0 0 14 3l3-3 M16 16h5v5",
   privacy: "M12 3l8 3v6c0 5-8 9-8 9s-8-4-8-9V6z M12 8v5 M12 16h.01",
   menu: "M3 6h18 M3 12h18 M3 18h18", close: "M6 6l12 12 M6 18L18 6", collapse: "M14 6l-6 6 6 6", logout: "M9 4H4v16h5 M10 12h11 M17 8l4 4-4 4",
+  sun: "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z",
+  moon: "M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z",
 };
 export function Icon({ name }: { name: string }) { return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name] ?? paths.dashboard} /></svg>; }
