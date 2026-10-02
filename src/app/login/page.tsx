@@ -1,11 +1,14 @@
-import { login, signup } from "./actions";
+import Link from "next/link";
+import { login } from "./actions";
+import { loginErrorMessage } from "@/lib/auth-security";
 
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; message?: string }>;
+  searchParams: Promise<{ error?: string }>;
 }) {
   const params = await searchParams;
+  const errorMessage = loginErrorMessage(params.error);
 
   return (
     <main className="auth-shell">
@@ -28,8 +31,7 @@ export default async function LoginPage({
         <h2>Entre na sua conta</h2>
         <p className="muted">Acesse seus lançamentos, planos e objetivos em um só lugar.</p>
 
-        {params.error && <div className="alert error">{params.error === "confirmacao" ? "Não foi possível confirmar o e-mail." : params.error}</div>}
-        {params.message && <div className="alert success">{params.message}</div>}
+        {errorMessage && <div className="alert error" role="alert">{errorMessage}</div>}
 
         <form>
           <label>
@@ -42,9 +44,9 @@ export default async function LoginPage({
           </label>
           <div className="auth-actions">
             <button className="button primary" formAction={login}>Entrar</button>
-            <button className="button secondary" formAction={signup}>Criar conta</button>
           </div>
         </form>
+        <p className="muted">Acesso pessoal. <Link href="/privacy">Privacidade e dados</Link></p>
       </section>
     </main>
   );

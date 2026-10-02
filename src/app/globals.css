@@ -957,3 +957,8 @@ h3 { font-family:var(--ds-font-sans); }
  .ds-table th,.ds-table td { padding:var(--ds-space-3) var(--ds-space-1); }
  .hero-card { padding:var(--ds-space-4); }
 }
+
+.ds-privacy { max-width:880px; margin:0 auto; padding:var(--ds-space-6); }
+.ds-privacy-sections { display:grid; gap:var(--ds-space-6); }
+.ds-privacy p { line-height:1.6; overflow-wrap:anywhere; }
+.ds-privacy h2 { margin-top:0; }
