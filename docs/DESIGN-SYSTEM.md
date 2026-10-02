@@ -1,14 +1,14 @@
-# descontrollle — Design System 3.0 — Editorial
+# descontrollle — Design System 3.1 — Editorial
 
-**Contrato visual oficial do produto · versão 3.0.0 · 01/10/2026**
+**Contrato visual oficial do produto · versão 3.1.0 · 01/10/2026**
 
-Status: contrato atualizado para o Sprint 2 editorial, sujeito à revisão do PR. Preserva a arquitetura e as regras financeiras da versão 2.0.
+Status: contrato atualizado para o Sprint 3, sujeito à revisão do PR. Preserva a arquitetura e as regras financeiras da versão 2.0.
 
 ## 1. Escopo e autoridade
 
 Este documento determina como o descontrollle deve apresentar informação, organizar navegação e responder às ações do usuário. Aplica-se à Home, aos módulos financeiros, à autenticação e aos estados de sistema. **DEVE** indica obrigação; **NÃO DEVE**, proibição; **PODE**, alternativa permitida dentro das condições descritas.
 
-O produto deve parecer um dashboard financeiro moderno: identidade editorial clara, títulos serifados, pouca decoração, superfícies creme e coral como accent controlado. O objetivo é ajudar a responder: “Qual é minha situação?”, “O que mudou?” e “Qual ação posso tomar?”.
+O produto deve parecer um dashboard financeiro moderno: identidade editorial clara, títulos Poppins, pouca decoração, superfícies creme e coral como accent controlado. O objetivo é ajudar a responder: “Qual é minha situação?”, “O que mudou?” e “Qual ação posso tomar?”.
 
 Este contrato não cria nem altera fórmulas, validações, limites de risco, baselines, regras temporais, critérios de conciliação, permissões ou persistência. Em caso de conflito, o domínio financeiro e seus testes prevalecem sobre um exemplo visual. Uma necessidade de mudança de domínio exige proposta separada.
 
@@ -109,13 +109,13 @@ Feedback de hover: 120 ms; mudança de estado: 180 ms; entrada de camada: 240 ms
 
 ## 5. Tipografia
 
-Títulos h1/h2 usam Copernicus Book (400); textos, controles e números usam Styrene B Regular (400) e Medium (500), fornecidas localmente via `next/font/local`, `display: swap`, sem chamadas externas. Fallback serifado: Georgia; sans: Arial/system-ui. Os arquivos fornecidos são Trial; o usuário confirmou possuir licença de uso web em 01/10/2026. Os arquivos Trial fornecidos não contêm caracteres acentuados portugueses nem o símbolo monetário `$`; estes usam fallback local. A substituição pelos arquivos completos licenciados é necessária para uniformidade tipográfica.
+Títulos h1/h2 usam Poppins (500); textos, controles e números usam Roboto (400/500/600). Ambas as famílias usam `next/font/google`, subsets latin/latin-ext e `display: swap`: os arquivos são obtidos no build e servidos pelo próprio aplicativo, sem chamada ao Google durante a navegação. Fallback: Arial/system-ui. As fontes Trial anteriores foram removidas a pedido do usuário.
 
 | Estilo/token | Tamanho / entrelinha | Peso | Uso |
 | --- | --- | --- | --- |
 | `display` | 40 / 48 px | 500 | Apresentação excepcional; não usar na Home |
-| `h1` | 36 / 44 px | 400 | Um título principal por página |
-| `h2` | 20 / 28 px | 400 | Seção de conteúdo |
+| `h1` | 36 / 44 px | 500 | Um título principal por página |
+| `h2` | 20 / 28 px | 500 | Seção de conteúdo |
 | `h3` | 16 / 24 px | 500 | Subgrupo ou painel |
 | `body` | 14 / 22 px | 400 | Descrição, tabelas e formulários |
 | `label` | 13 / 20 px | 500 | Label e botão |
@@ -123,7 +123,7 @@ Títulos h1/h2 usam Copernicus Book (400); textos, controles e números usam Sty
 | `metric` | 32 / 40 px | 500 | KPI financeiro |
 | `metric-compact` | 24 / 32 px | 500 | KPI em viewport estreito |
 
-Pesos permitidos: 400 e 500. Não usar 800/900 em conteúdo financeiro. Títulos e métricas podem usar tracking `-0.02em`; corpo usa 0. Não usar caixa alta em parágrafos, títulos de painéis ou labels de formulário. Uma pequena identificação de seção pode usar caption, tracking `0.04em`.
+Pesos permitidos: 400, 500 e 600. Não usar 800/900 em conteúdo financeiro. Títulos e métricas podem usar tracking `-0.02em`; corpo usa 0. Não usar caixa alta em parágrafos, títulos de painéis ou labels de formulário. Uma pequena identificação de seção pode usar caption, tracking `0.04em`.
 
 Valores financeiros usam `font-variant-numeric: tabular-nums lining-nums`. Tabelas alinham números à direita e descrições à esquerda. Não usar fonte monoespaçada por padrão. Valores não devem ter ellipsis; para números extensos, permitir linha própria e fallback de tamanho metric-compact. Labels podem quebrar linha; textos essenciais não dependem de tooltip.
 
@@ -428,7 +428,7 @@ Mensagens devem declarar o que ocorreu e a próxima ação possível. Confirmaç
 
 ## 15. Tokens CSS oficiais propostos
 
-Este bloco reflete os tokens da implementação editorial 3.0. O arquivo globals.css é a fonte executável; `.ds-inverse` reatribui os mesmos nomes semânticos às cores de tinta.
+Este bloco reflete os tokens da implementação editorial 3.1. O arquivo globals.css é a fonte executável; `.ds-inverse` reatribui os mesmos nomes semânticos às cores de tinta.
 
 ```css
 :root {
@@ -464,9 +464,9 @@ Este bloco reflete os tokens da implementação editorial 3.0. O arquivo globals
   --ds-chart-5: #426b83;
   --ds-chart-6: #72685f;
 
-  --ds-font-sans: var(--font-styrene-b), ui-sans-serif, system-ui, -apple-system,
+  --ds-font-sans: var(--font-roboto), ui-sans-serif, system-ui, -apple-system,
     BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --ds-font-display: var(--font-copernicus), Georgia, "Times New Roman", serif;
+  --ds-font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --ds-brand-coral: #cc785c;
   --ds-ink: #181715;
   --ds-ink-elevated: #252320;
@@ -490,7 +490,7 @@ Este bloco reflete os tokens da implementação editorial 3.0. O arquivo globals
   --ds-ink-chart-2: #7db9a5;
   --ds-weight-regular: 400;
   --ds-weight-medium: 500;
-  --ds-weight-semibold: 500;
+  --ds-weight-semibold: 600;
   --ds-text-display: 2.5rem;
   --ds-leading-display: 3rem;
   --ds-text-h1: 2.25rem;
