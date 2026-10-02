@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { Roboto, Poppins } from "next/font/google";
 import "./globals.css";
 
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
   description: "Planejamento financeiro pessoal orientado a objetivos.",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR" className={`${roboto.variable} ${poppins.variable}`}>
       <body>{children}</body>

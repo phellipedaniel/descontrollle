@@ -23,6 +23,7 @@ export function Sidebar({ active }: { active: SidebarSection }) {
   const navigation = (mobile = false) => <>
     <Link href="/" className="ds-brand" aria-label="descontrollle — Visão geral"><span className="ds-brand-symbol" aria-hidden="true">d</span><span className="ds-nav-text">descontrollle</span></Link>
     <nav aria-label={mobile ? "Navegação móvel" : "Navegação principal"}>{groups.map(group => <div className="ds-nav-group" key={group.name}><span className="ds-nav-group-name">{group.name}</span>{group.items.map(([key, label, href]) => <NavigationLink key={key} href={href} label={label} icon={key} active={active === key} collapsed={collapsed} mobile={mobile} onNavigate={() => dialog.current?.close()}/>)}</div>)}</nav>
+    <Link href="/privacy" className="ds-nav-link" title="Privacidade e dados" aria-label="Privacidade e dados"><Icon name="privacy"/><span className="ds-nav-text">Privacidade e dados</span></Link>
     <form action={logout}><button className="ds-nav-link" title="Sair" aria-label="Sair"><Icon name="logout"/><span className="ds-nav-text">Sair</span></button></form>
   </>;
   return <>

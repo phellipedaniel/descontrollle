@@ -12,3 +12,7 @@ out
 /outputs/
 /private-imports/
 acesso_descontrollle.txt
+
+# Local build and Supabase CLI state
+*.tsbuildinfo
+/supabase/.temp/

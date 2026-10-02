@@ -9,6 +9,7 @@ const paths: Record<string, string> = {
   forecast: "M3 20V4 M3 20h18 M6 16l5-5 4 2 6-8",
   behavior: "M3 7h18 M3 12h18 M3 17h18 M7 5v4 M15 10v4 M10 15v4",
   automation: "M20 8a8 8 0 0 0-14-3L3 8 M3 3v5h5 M4 16a8 8 0 0 0 14 3l3-3 M16 16h5v5",
+  privacy: "M12 3l8 3v6c0 5-8 9-8 9s-8-4-8-9V6z M12 8v5 M12 16h.01",
   menu: "M3 6h18 M3 12h18 M3 18h18", close: "M6 6l12 12 M6 18L18 6", collapse: "M14 6l-6 6 6 6", logout: "M9 4H4v16h5 M10 12h11 M17 8l4 4-4 4",
 };
 export function Icon({ name }: { name: string }) { return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name] ?? paths.dashboard} /></svg>; }
