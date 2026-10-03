@@ -27,7 +27,8 @@ test('export denies anonymous and cross-site requests and sets private attachmen
  response=await GET(new Request('https://app.test/privacy/export',{headers:{'sec-fetch-site':'same-origin'}}));
  assert.equal(response.status,200);assert.match(response.headers.get('cache-control'),/no-store/);
  assert.match(response.headers.get('content-disposition'),/attachment/);
- const payload=await response.json();assert.equal(payload.account.id,'a');assert.equal(Object.keys(payload.tables).length,25);
+ const payload=await response.json();assert.equal(payload.account.id,'a');assert.equal(Object.keys(payload.tables).length,28);
+ for(const table of ["fixed_recurring_items","fixed_recurring_versions","fixed_recurring_confirmations"]) assert.ok(Object.hasOwn(payload.tables,table));
 });
 test('export endpoint never discloses provider failures or returns a partial file',async()=>{
  globalThis.dashboardFixture=exportClient({id:'a'});

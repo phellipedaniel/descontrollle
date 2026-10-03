@@ -20,7 +20,8 @@ test('export paginates beyond provider defaults, scopes every table and includes
  const result=await exportAccountData(c,'a');
  assert.equal(result.tables.transactions.length,1201);assert.equal(result.counts.transactions,1201);
  assert.equal(result.tables.financial_periods[0].status,'closed');
- assert.equal(Object.keys(result.tables).length,25);
+ assert.equal(Object.keys(result.tables).length,28);
+ for(const table of ["fixed_recurring_items","fixed_recurring_versions","fixed_recurring_confirmations"]) assert.ok(Object.hasOwn(result.tables,table));
  for(const call of c.calls){assert.deepEqual(call.filters,[['user_id','a']]);assert.deepEqual(call.options,{count:'exact'});}
  assert.deepEqual(c.calls.filter(x=>x.table==='transactions').map(x=>x.range),[[0,499],[500,999],[1000,1499]]);
  assert.deepEqual(c.calls.find(x=>x.table==='resilience_essential_categories').orders,['user_id','category_id']);

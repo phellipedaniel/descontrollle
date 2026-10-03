@@ -5,11 +5,11 @@ import { logout } from "@/app/login/actions";
 import { Icon } from "@/components/ui/icon";
 import { NavigationLink } from "@/components/layout/navigation-link";
 import { ThemeToggle } from "@/components/theme-toggle";
-export type SidebarSection = "dashboard" | "finance" | "planning" | "goals" | "resilience" | "debts" | "net-worth" | "forecast" | "behavior" | "automation";
+export type SidebarSection = "dashboard" | "finance" | "planning" | "goals" | "resilience" | "debts" | "net-worth" | "forecast" | "behavior" | "automation" | "recurrences";
 const groups = [
   { name: "Principal", items: [["dashboard", "Visão geral", "/"], ["finance", "Finanças", "/finance"], ["planning", "Planejamento", "/planning"], ["goals", "Objetivos", "/goals"]] },
   { name: "Análise", items: [["resilience", "Segurança financeira", "/resilience"], ["debts", "Dívidas", "/debts"], ["net-worth", "Patrimônio", "/net-worth"], ["forecast", "Projeções", "/forecast"], ["behavior", "Comportamento", "/behavior"]] },
-  { name: "Rotinas", items: [["automation", "Automação", "/automation"]] },
+  { name: "Rotinas", items: [["recurrences", "Receitas e custos fixos", "/recurrences"], ["automation", "Automação", "/automation"]] },
 ];
 export function Sidebar({ active }: { active: SidebarSection }) {
   const [collapsed, setCollapsed] = useState(false);

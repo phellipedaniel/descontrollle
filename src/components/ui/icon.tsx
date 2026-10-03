@@ -1,4 +1,5 @@
 const paths: Record<string, string> = {
+  recurrences: "M4 5h16v16H4z M8 3v4 M16 3v4 M4 11h16 M9 15h6 M12 12v6",
   dashboard: "M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z",
   finance: "M3 6h18v14H3z M3 10h18 M15 15h3",
   planning: "M4 5h16v16H4z M8 3v4 M16 3v4 M4 11h16",

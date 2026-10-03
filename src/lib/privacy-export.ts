@@ -1,4 +1,5 @@
 export const exportSources = [
+  ["fixed_recurring_items", ["id"]], ["fixed_recurring_versions", ["id"]], ["fixed_recurring_confirmations", ["id"]],
   ["accounts", ["id"]], ["annual_provisions", ["id"]], ["asset_valuations", ["id"]],
   ["assets", ["id"]], ["behavior_checkins", ["id"]], ["behavior_profiles", ["user_id"]],
   ["categories", ["id"]], ["category_budgets", ["id"]], ["debt_payments", ["id"]],

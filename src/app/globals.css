@@ -1269,3 +1269,14 @@ h3 { font-family:var(--ds-font-display); font-weight:var(--ds-weight-medium); }
     text-align:left;
   }
 }
+
+/* Monthly forecasts remain separate from realized metrics. */
+.ds-fixed-summary { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--ds-space-6); margin-block:var(--ds-space-6); }
+.ds-fixed-summary > * { min-width:0; }
+.ds-fixed-summary strong,.ds-fixed-summary dd { font-family:var(--ds-font-sans); font-size:var(--ds-text-metric-compact); line-height:var(--ds-leading-metric-compact); font-weight:var(--ds-weight-medium); font-variant-numeric:tabular-nums lining-nums; overflow-wrap:anywhere; }
+.ds-fixed-summary dd { margin:var(--ds-space-2) 0; }
+.ds-fixed-summary h2 { font-size:var(--ds-text-h3); line-height:var(--ds-leading-h3); }
+.ds-fixed-forms,.ds-fixed-items { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--ds-space-6); margin-block:var(--ds-space-7); }
+.ds-fixed-items > * { min-width:0; }
+@media(max-width:1023px) { .ds-fixed-summary { grid-template-columns:1fr; } }
+@media(max-width:639px) { .ds-fixed-forms,.ds-fixed-items { grid-template-columns:1fr; gap:var(--ds-space-4); } }
