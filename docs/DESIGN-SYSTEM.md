@@ -6,6 +6,8 @@ Status: contrato atualizado para o Sprint 3, sujeito à revisão do PR. Preserva
 
 ## 1. Escopo e autoridade
 
+A fonte visual principal é o [`design.md`](../design.md) da raiz. Em divergências visuais, ele prevalece sobre este documento e os estilos existentes; o domínio financeiro e seus testes permanecem acima de ambos. O tema padrão é claro, e o tema escuro reutiliza a paleta editorial de tinta, sem a referência cromática do Linear.
+
 Este documento determina como o descontrollle deve apresentar informação, organizar navegação e responder às ações do usuário. Aplica-se à Home, aos módulos financeiros, à autenticação e aos estados de sistema. **DEVE** indica obrigação; **NÃO DEVE**, proibição; **PODE**, alternativa permitida dentro das condições descritas.
 
 O produto deve parecer um dashboard financeiro moderno: identidade editorial clara, títulos Poppins, pouca decoração, superfícies creme e coral como accent controlado. O objetivo é ajudar a responder: “Qual é minha situação?”, “O que mudou?” e “Qual ação posso tomar?”.
@@ -109,7 +111,7 @@ Feedback de hover: 120 ms; mudança de estado: 180 ms; entrada de camada: 240 ms
 
 ## 5. Tipografia
 
-Títulos h1/h2 usam Poppins (500); textos, controles e números usam Roboto (400/500/600). Ambas as famílias usam `next/font/google`, subsets latin/latin-ext e `display: swap`: os arquivos são obtidos no build e servidos pelo próprio aplicativo, sem chamada ao Google durante a navegação. Fallback: Arial/system-ui. As fontes Trial anteriores foram removidas a pedido do usuário.
+Títulos h1/h2/h3 usam Poppins (500); textos, controles e números usam Roboto (400/500/600). Ambas as famílias usam `next/font/google`, subsets latin/latin-ext e `display: swap`: os arquivos são obtidos no build e servidos pelo próprio aplicativo, sem chamada ao Google durante a navegação. Fallback: Arial/system-ui. As fontes Trial anteriores foram removidas a pedido do usuário.
 
 | Estilo/token | Tamanho / entrelinha | Peso | Uso |
 | --- | --- | --- | --- |
