@@ -1,4 +1,6 @@
 import { OverviewCharts } from "@/components/dashboard/overview-charts";
+import { FixedRecurrenceSummary } from "@/components/dashboard/fixed-recurrence-summary";
+import type { FixedItem } from "@/lib/fixed-recurrences";
 import {
   buildOverviewStory,
   loadOverviewHistory,
@@ -361,6 +363,8 @@ export default async function Dashboard({
     Number(Boolean(paymentMethodId)) +
     Number(kindFilter !== "all");
 
+  const fixedResult = await supabase.rpc("fixed_recurrence_month", { p_month: start });
+  const fixedItems = fixedResult.error || !Array.isArray(fixedResult.data) ? null : fixedResult.data as FixedItem[];
   return <AppShell active="dashboard">
     <PageHeader
       title="Dashboard de custos"
@@ -458,6 +462,7 @@ export default async function Dashboard({
       )}
     </section>
 
+    <FixedRecurrenceSummary month={month} items={fixedItems}/>
     <div className="ds-cost-dashboard-grid">
       <section className="ds-panel ds-cost-category-panel">
         <SectionHeader
